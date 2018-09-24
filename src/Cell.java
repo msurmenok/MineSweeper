@@ -6,6 +6,7 @@
 public class Cell {
 	private boolean isFlagged;
 	private boolean isOpen;
+	private boolean isMine;
 	
 	/**
 	 * By default, a cell is not flagged and is not visible when initiate at the beginning.
