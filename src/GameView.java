@@ -3,6 +3,11 @@
  * "V" in MVC model
  */
 public class GameView {
+/*
+ * TODO:
+ * 1. Create fields JFrame frame and Queue messageQueue;
+ * 2. Instead of show(), update(), and displayTime(), create method void change(Model model)
+ */
 
   // counter
   public GameView() {
