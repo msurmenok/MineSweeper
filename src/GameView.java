@@ -12,7 +12,7 @@ import java.util.Queue;
 public class GameView extends Jframe {
 
   Queue messageQueue;
-  Model model;
+  GameModel model;
 
   // counter
   public GameView() {
@@ -20,6 +20,6 @@ public class GameView extends Jframe {
     initUI();
   }
  
-  public void change(Model model) {
+  public void change(GameModel model) {
   }
 }
