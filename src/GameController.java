@@ -29,4 +29,13 @@ public class GameController {
 		
 	}
 	
+	/**
+	 * Method to stop a game.
+	 * Stops timer.
+	 */
+	void endGame()
+	{
+		
+	}
+	
 }
