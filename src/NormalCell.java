@@ -18,14 +18,14 @@ public class NormalCell extends Cell{
 	@Override
 	public void openCell() {
 		super.openCell();
-		//update numOfAdjMines
+		//TODO: call countAdjMines()
 	}
 	/**
 	 * Count the number of adjacent mines
 	 * @return
 	 */
 	private int countAdjMines() {
-		//count mines
+		//TODO: count mines and update numOfAdjMines
 		return numOfAdjMines;
 	}
 }
