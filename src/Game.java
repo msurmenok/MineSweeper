@@ -4,6 +4,10 @@
  *
  */
 public class Game {
+	GameView gameView;
+	GameController gameController;
+	GameModel gameModel;
+	
 	void main(String[] args)
 	{
 		/*
