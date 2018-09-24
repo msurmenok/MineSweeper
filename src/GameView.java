@@ -20,6 +20,10 @@ public class GameView extends Jframe {
     initUI();
   }
  
+  /**
+   * Send updated model to render in GameView
+   * @param model is updated model of the game
+   */
   public void change(GameModel model) {
   }
 }
