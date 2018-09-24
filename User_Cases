@@ -1,56 +1,46 @@
-Sweeper game design
-
-Describe the the playing process
-A user clicked randomly on the any cell of the field. At the same time, the time counter will start to count time. If it is not a mine, the field will open an area around this click point. If it is a mine, game is over. Then the user will continue click on cell. The user will mark the cell as flag. If the cells is marked as a flag, the mine counter will decrease by 1. If the game is over at middle, the user cannot click on cells anymore. All mines will be shown on the field with the mined marked correctly shown with a X??. And the smiley face turns to a sad face. If all the mines were find out, the game will stop and it will pop up with a sentence saying congratulations. 
-
-
-
 User cases
 
-New game
-The user opens a new game and choose the size of the board.
+User case 1. Left-click mouse
+1.Open the cell 
 
-	Choose difficulty level
+Variations # 1
+1.1.It’s a mine - end game. 
+1.2.Timer stops. 
+1.3.Show the rest of the unclicked mines. 
+1.4.Show cross signs on the incorrectly flagged mines. 
 
-2. The user chooses the size of the board to determine game difficulty level
+Variation # 2
+2.1.It's a mine - end game.
+2.2.Timer stops.
+2.3.Only Show the rest of the unclicked mines.
 
+Variation # 3
+3.1 it’s not a mine, and there is no mine around it, open the surrounding area.
 
-Minesweeping
-If the user feels that it is not mine, left  click to check the result 
-If the user is correct, the board will show the mine information around the clicked cell(either empty or with numbers).
-If the user clicked on a mine, the game is over.
-The time counter starts to count seconds after the first click of the user
-If the user feels that it is a mine, the user right clicks the cell to mark it using a flag.
-The number of mines will decrease by 1 after user flagged the cell.
+Variation # 4
+4.1 It's not a mine, and there are mines around it, show the number of adjacent mines
 
-Winning a game
-If the user finished sweeping all the mines(marked number of flags equals to the numbers of mine and marked them correctly), the user wins the game.
-If the user didn’t marked all mines correctly, there are still mines left, continue mine sweeping step 1.
+Variation # 5
+5.1.Start from 4.1.
+5.2.Number of the unclicked cell equals to the number of mines - user win.
 
-Asking for help
-The user clicks help button and a tutorial of the game shows
 
-About
-The user clicks the About button and the information about About shows up.
+User case 2. Right-click mouse on a flagged cell
+1.Unflag the cell 
+2.Increase the numbers on mine counter
 
-Left-click mouse
-Open cell
-Check if it is a mine cell.
-If it’s a mine - end game.
-If it’s not a mine, check the number of unopened cells.
-if its equal to number of mines - user won. 
-If there are more unopened cells than number of mines, display the number of adjacent mines.
-If there are no adjacent mines - open surrounding cells.
-Right-click mouse
-Check if this cell already has a flag.
-If it doesn’t have a flag, display flag and mark cell as flagged so it cannot be opened.
-If it has flag, remove flag and mark that cell doesn’t have a flag.
-New-game button click
-Generate new field.
-Refresh timer and mines counter.
 
+User case 3. Right-click mouse on a unflagged cell
+1. Flag the cell
+2. Decrease the numbers on mine counter
 
+User case 4. New game button click
+1.User initiates a new game
+2.GameController set GameModel to restart the game.
+3.Generate new field.
+4.Refresh timer and mines counter.
 
+ 
 
 
 
@@ -65,228 +55,11 @@ Refresh timer and mines counter.
 
 
 
-Game
-Contains  the board
-Board
-Display timer
-Timer
-Display mine counter
-Mine Counter
-Get the difficulty level of the game from the input
 
 
-Get the input for left click(mine or new area)
 
 
-Get the input for flagging
 
-
-
-
-
-
-Class: Board
-Responsibilities
-Collaborators
-Store cells
-Mine Cell
-Respond to user’s click to change the cell
-Empty Cell
-Display the rest of the mines and the one the user clicked incorrectly and the game is over
-Timer
-
-
-Mine Counter
-
-
-
-Possible for cell class:
-Super class: Cell
-Subclass1: MineCell 
-Subclass2: EmptyCell
-Parent: Cell
-Store status of visibility
-
-
-Change the status correspondingly after receiving clicking information from the user
-
-
-Store status of flag
-
-
-
-
-
-MineCell
-Ends the game once visible
-Board
-
-
-User
-
-
-
-
-
-
-
-
-
-
-
-
-EmptyCell
-Store the number of mines around it (default = 0)
-Board
-
-
-User
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Timer
-increase by 1 second
-Board
-Display time elapsed
-
-
-Stop timing when the game fails
-
-
-
-
-
-
-
-
-
-
-MineCounter
-Display number of mine
-Board
-Decrease by 1 once a cell’s status change to flag
-Cell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-MineSweeper
-Board
-MineField
-MineCounter
-Timer
-Cells
-
-
-
-
-Int NROW
-Int NCOL
-
-
-
-
-
-
-Setup
-Reset
-
-
-
-
-init_field)_
-calc_nearMine(x,y)
-openView(x,y)
-reset()
-
-
-
-
-isMine()
-isFlag()
-isOpen()
-clear()
-display()
-
-Play
-MineSweeperTester
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Keyboard_input()
-mouse_click()
-main()
-MineSweeperTester() {
- main() {
-  While (true) {
-  R = Input (mouse click)
-   If (r == mine)
-      game_over()
- } else { 
-  // keep getting user input
-}
-  } 
-}
 
 
 
