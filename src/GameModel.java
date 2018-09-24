@@ -1,3 +1,5 @@
+import java.util.Date;
+
 /**
  * Model that contains state of all objects of the game
  * @author msurmenok
@@ -6,8 +8,9 @@
 public class GameModel 
 {
 	private MineField mineField;
-	private Timer timer;
+	private Date staringTime;
 	private MineCounter mineCounter;
+	
 	
 	/**
 	 * Initialize state for a new game
@@ -42,4 +45,13 @@ public class GameModel
 	{
 		
 	}
+	
+	/**
+	 * Record the staring time of the first click
+	 */
+	void setStartingTime() {
+		
+	}
+	
+	
 }
