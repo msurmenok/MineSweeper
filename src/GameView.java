@@ -2,10 +2,10 @@
  * GameViewer:
  * "V" in MVC model
  */
-public class GameViewer {
+public class GameView {
 
   // counter
-  public GameViewer() {
+  public GameView() {
   }
  
   /*
