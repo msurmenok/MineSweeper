@@ -16,8 +16,8 @@ public class Timer {
    * receving endGame call from Game class
    */
   private void incrementBySec() {
-    while (ture) {
-      second++;
+    while (true) {
+      seconds++;
     }
   }
 }
