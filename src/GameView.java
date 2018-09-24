@@ -1,4 +1,4 @@
-/*
+/**
  * GameView: "V" in MVC model
  * @author Park
  * Changes:
