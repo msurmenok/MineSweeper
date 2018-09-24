@@ -38,8 +38,10 @@ public class GameModel
 		
 	}
 	
-	/** 
+	/**
 	 * If cell is already flagged, remove flag, otherwise set flag
+	 * @param x x coordinate
+	 * @param y y coordinate
 	 */
 	void toggleCellFlag(int x, int y)
 	{

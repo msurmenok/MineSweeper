@@ -22,6 +22,9 @@ public class MineField
 	
 	/**
 	 * Create mine field and put mines in random cells
+	 * @param height number of rows
+	 * @param width number of columns
+	 * @param numberOfMines number of mines
 	 */
 	public void generateField(int height, int width, int numberOfMines)
 	{

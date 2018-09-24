@@ -22,9 +22,9 @@ public class NormalCell extends Cell{
 	}
 	/**
 	 * Count the number of adjacent mines
-	 * @return
+	 * @return number of adjacent mines
 	 */
-	private int countAdjMines() {
+	private int setAdjMines() {
 		//TODO: count mines and update numOfAdjMines
 		return numOfAdjMines;
 	}

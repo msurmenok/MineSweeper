@@ -12,6 +12,8 @@ public class GameController {
 	
 	/**
 	 * Initialize game controller
+	 * @param view GUI representation of the game
+	 * @param model model of the game
 	 */
 	public GameController(GameView view, GameModel model)
 	{
