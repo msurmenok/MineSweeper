@@ -7,7 +7,7 @@ public class MineCounter {
 
   private int numOfMines;
 
-  // counter
+  // constructor
   public MineCounter() {
   }
 

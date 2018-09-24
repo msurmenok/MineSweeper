@@ -1,4 +1,4 @@
-/*
+/**
  * GameView: "V" in MVC model
  * @author Park
  * Changes:
@@ -14,7 +14,7 @@ public class GameView extends Jframe {
   Queue messageQueue;
   GameModel model;
 
-  // counter
+  // constructor
   public GameView() {
     messageQueue = new Queue();
     initUI();

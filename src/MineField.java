@@ -34,8 +34,19 @@ public class MineField
 	 * @param y y coordinate of the cell
 	 * @return number of mines nearby
 	 */
-	int calculateAdjacentMineNumbers(int x, int y)
+	public int calculateAdjacentMineNumbers(int x, int y)
 	{
 		return 0;
+	}
+	
+	/**
+	 * Method to get a specific cell
+	 * @param x x coordinate of returning cell
+	 * @param y y coordinate of returning cell
+	 * @return return cell with x y coordinate
+	 */
+	public Cell getCell(int x, int y)
+	{
+		return cells[x][y];
 	}
 }
