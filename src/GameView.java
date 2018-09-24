@@ -1,31 +1,25 @@
 /*
- * GameViewer:
- * "V" in MVC model
+ * GameView: "V" in MVC model
+ * @author Park
+ * Changes:
+ * 1. Create fields JFrame frame and Queue messageQueue; 
+ * 2. Instead of show(), update(), and displayTime(), 
+ *    create method void change(Model model)
  */
-public class GameView {
-/*
- * TODO:
- * 1. Create fields JFrame frame and Queue messageQueue;
- * 2. Instead of show(), update(), and displayTime(), create method void change(Model model)
- */
+import javax.swing.JFrame;
+import java.util.Queue;
+
+public class GameView extends Jframe {
+
+  Queue messageQueue;
+  Model model;
 
   // counter
   public GameView() {
+    messageQueue = new Queue();
+    initUI();
   }
  
-  /*
-   * show all initial game components (MineCounter, MineFields, Timer)
-   */
-  private void show() {
-  }
-  /*
-   * display updated changes from MineCounter and MineFields
-   */
-  private void update() {
-  }
-  /*
-   * At every second, display updated time from Timer class
-   */
-  private void displayTime() {
+  public void change(Model model) {
   }
 }
