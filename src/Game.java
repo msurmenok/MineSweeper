@@ -1,6 +1,6 @@
 /**
  * Game class contains and controls all other elements of the game
- * @author Maria
+ * @author msurmenok
  * 
  */
 public class Game 
