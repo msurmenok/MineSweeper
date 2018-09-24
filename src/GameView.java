@@ -14,7 +14,7 @@ public class GameView extends Jframe {
   Queue messageQueue;
   Model model;
 
-  // counter
+  // constructor
   public GameView() {
     messageQueue = new Queue();
     initUI();
