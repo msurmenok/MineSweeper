@@ -9,7 +9,8 @@ public class Game {
 		/*
 		 * TODO: 
 		 * 1. Create Model, View.
-		 * 2. Create Controller and pass Model and View instances as parameters
+		 * 2. Create Controller and pass Model and View instances to GameController as parameters
+		 * 3. Run gameController.mainLoop() method
 		 */
 	}
 }

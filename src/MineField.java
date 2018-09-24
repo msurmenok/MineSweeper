@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-
 /**
  * MineField class is a 2d array that represents a field of mines
  * @author msurmenok
