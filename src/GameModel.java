@@ -1,5 +1,5 @@
 /**
- * Game class contains and controls all other elements of the game
+ * Model that contains state of all objects of the game
  * @author msurmenok
  * 
  */
@@ -10,7 +10,7 @@ public class GameModel
 	private MineCounter mineCounter;
 	
 	/**
-	 * Constructs a new game
+	 * Initialize state for a new game
 	 */
 	public GameModel()
 	{
@@ -18,7 +18,7 @@ public class GameModel
 	}
 	
 	/**
-	 * Reset all variables
+	 * Reset state. Reinitialize field with mines
 	 */
 	void restartGame()
 	{
