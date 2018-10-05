@@ -67,6 +67,6 @@ public class MineField
 	 */
 	public Cell getCell(int x, int y)
 	{
-		return cells[x][y];
+		return cells[y][x];
 	}
 }
