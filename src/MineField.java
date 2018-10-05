@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * MineField class is a 2d array that represents a field of mines
  * @author msurmenok
@@ -39,7 +41,22 @@ public class MineField
 	 */
 	public int calculateAdjacentMineNumbers(int x, int y)
 	{
-		return 0;
+		int mineCounter = 0;
+		// y - rows, x - columns.
+		for (int i = y - 1; i < y + 2; i++) {
+			for (int j = x - 1; j < x + 2; j++) {
+				// Check if index is out of bounds.
+				// If it is outside of the array, skip this iteration.
+				if ( x == -1 || y == -1 || x == cells[i].length || y == cells.length) {
+					continue;
+				}
+				// Increase counter if the specified cell is mine.
+				if (this.getCell(i, j).isMine()) {
+					mineCounter++;
+				}
+			}
+		}
+		return mineCounter;
 	}
 	
 	/**
