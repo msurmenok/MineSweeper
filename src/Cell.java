@@ -4,35 +4,47 @@
  *
  */
 public class Cell {
-	private boolean isFlagged;
-	private boolean isOpen;
-	private boolean isMine;
+	private boolean flagged;
+	private boolean open;
+	private boolean mine;
 	
 	/**
 	 * By default, a cell is not flagged and is not visible when initiate at the beginning.
 	 */
 	public Cell() {
-		isFlagged = false;
-		isOpen = false;
+		flagged = false;
+		open = false;
 	}
 	/**
 	 * The method to flag a cell
 	 */
 	public void setFlag() {
-		isFlagged = true;
+		flagged = true;
 	}
 	
 	/**
 	 * The method to unflag a cell
 	 */
 	public void removeFlag() {
-		isFlagged = false;
+		flagged = false;
 	}
 	
 	/**
 	 * The method to open a cell
 	 */
 	public void openCell() {
-		isOpen = true;
+		open = true;
+	}
+	
+	public boolean isOpen() {
+		return this.open;
+	}
+	
+	public boolean isFlagged() {
+		return this.flagged;
+	}
+	
+	public boolean isMine() {
+		return this.mine;
 	}
 }
