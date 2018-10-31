@@ -245,13 +245,13 @@ public class Model {
           char c = (char) ('0' + adjacentMines);
           drawOneCell(h, w, c);
       } 
-      else  // either -1 (mine cell) or 0 (no mines around)
+      else  // 0 (no mines around)
       {
           /** 
-           * openCellCounter(int h, int w) 
+           * openZeroCounter(int h, int w) 
            * will recursively count opened cells 
            */
-          opened_counter = openCellCounter(h, w);
+          opened_counter = openZeroCounter(h, w);
       }
 
       // accumulative opened_counter
@@ -267,7 +267,7 @@ public class Model {
     }
 
 
-    private int openCellCounter(int h, int w) 
+    private int openZeroCounter(int h, int w) 
     {
       // boundary check
       if (h < 0 || height <= h || w < 0 || width <= w)
@@ -304,14 +304,14 @@ public class Model {
           return opened_counter;
       }
       // counts opened cells recursively from adjacent cells
-      opened_counter += openCellCounter(h - 1, w - 1);  // 1
-      opened_counter += openCellCounter(h - 1, w + 0);  // 2
-      opened_counter += openCellCounter(h - 1, w + 1);  // 3
-      opened_counter += openCellCounter(h + 0, w - 1);  // 4
-      opened_counter += openCellCounter(h + 0, w + 1);  // 5
-      opened_counter += openCellCounter(h + 1, w - 1);  // 6
-      opened_counter += openCellCounter(h + 1, w + 0);  // 7
-      opened_counter += openCellCounter(h + 1, w + 1);  // 8
+      opened_counter += openZeroCounter(h - 1, w - 1);  // 1
+      opened_counter += openZeroCounter(h - 1, w + 0);  // 2
+      opened_counter += openZeroCounter(h - 1, w + 1);  // 3
+      opened_counter += openZeroCounter(h + 0, w - 1);  // 4
+      opened_counter += openZeroCounter(h + 0, w + 1);  // 5
+      opened_counter += openZeroCounter(h + 1, w - 1);  // 6
+      opened_counter += openZeroCounter(h + 1, w + 0);  // 7
+      opened_counter += openZeroCounter(h + 1, w + 1);  // 8
       return opened_counter;
     }
 
