@@ -223,7 +223,7 @@ public class Model {
     {
       Cell cell = cells[h][w];
 
-      // if flagged, isOpenCell true, no change in opened_counter
+      // if flagged, do-nothing, no change in opened_counter
       if (cell.isFlagged())
           return true;
 
@@ -235,7 +235,7 @@ public class Model {
 
       // opened_counter starts
       int opened_counter = 0;
-      if (adjacentMines > 0) 
+      if (adjacentMines > 0 && !cell.isOpened())
       {
           // set this cell opened 
           // opened_counter + 1
