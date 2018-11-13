@@ -145,10 +145,10 @@ public class Model extends JPanel
         {
           for (int j = 0; j < height; j++) 
           {
-            if (mineBoolean[j * height + i])
-              icon = new ImageIcon("img/m.png").getImage();
-            else 
+            if (cells[i][j] >= 0)
               icon = new ImageIcon("img/" + cells[i][j] + ".png").getImage();
+            else // cells[i][j] = -1 
+              icon = new ImageIcon("img/m.png").getImage();
             g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
           }
         }
