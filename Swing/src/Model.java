@@ -362,7 +362,7 @@ public class Model extends JPanel
       for (int i = 0; i < width; i++)                                
         for (int j = 0; j < height; j++) 
         {
-          icon = new ImageIcon("img/c.png").getImage();
+          icon = new ImageIcon("src/img/c.png").getImage();
           g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
         }
         initGame = false;
@@ -374,16 +374,16 @@ public class Model extends JPanel
         if (isLeftClick)
         {
           if (mineBoolean[h * width + w]) // mineCell
-            icon = new ImageIcon("img/m.png").getImage();
+            icon = new ImageIcon("src/img/m.png").getImage();
           else // !mineCell 
-            icon = new ImageIcon("img/" + cells[h][w].adjacentMines() + ".png").getImage();
+            icon = new ImageIcon("src/img/" + cells[h][w].adjacentMines() + ".png").getImage();
         } // isLeftClick
         else // (isRightClick)
         {
           if (cells[h][w].isFlagged()) // isFlagged, paint with closed icon
-            icon = new ImageIcon("img/c.png").getImage();
+            icon = new ImageIcon("src/img/c.png").getImage();
           else // !isFlagged, paint with flag icon "?"
-            icon = new ImageIcon("img/f.png").getImage();
+            icon = new ImageIcon("src/img/f.png").getImage();
         } // isRightClick
         g.drawImage(icon, w * CELL_SIZE, h * CELL_SIZE, this);
      }// EO-else(!initGame)
