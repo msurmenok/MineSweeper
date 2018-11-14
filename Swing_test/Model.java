@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Point;
 import java.awt.event.*;
 
 public class Model extends JPanel
@@ -17,6 +18,10 @@ public class Model extends JPanel
   private int adjacentMines;
   private int[][] cells;
 
+  private boolean isMineCell;
+  private boolean isNumberCell;
+  private boolean isEmptyCell;
+
   public Model(int width, int height, int mines)
   {
     this.width = width; 
@@ -29,12 +34,18 @@ public class Model extends JPanel
     N = height * width;
     mineBoolean = new boolean[N];
 
+
     adjacentMines = 0;
+    isMineCell = false;
+    isNumberCell = false;
+    isEmptyCell = false;
     
     generateMineField();
     initGame = true;
     calcAdjacentMines();
     addMouseListener(new GameMouseAdapter());
+    //drawOneCell();
+
   }
 
    private void generateMineField() 
@@ -99,59 +110,44 @@ public class Model extends JPanel
   {
     public void mousePressed(MouseEvent event)
     {
-      int x = event.getX();
-      int y = event.getY();
-
+      mousePoint = event.getPoint();    
+      int x = mousePoint.x;
+      int y = mousePoint.y;
       int w = x/CELL_SIZE;
       int h = y/CELL_SIZE;
 
-      boolean repaint = false;
-
-      if ((x < FIELD_WIDTH) && (y < FIELD_HEIGHT))
+      if ((x < FIELD_WIDTH) && (y < FIELD_HEIGHT) && (SwingUtilities.isLeftMouseButton(event)))
       {
-        if (SwingUtilities.isLeftMouseButton(event))
-        {
-          System.out.println("(w,h) = (" + w + "," + h + ")");
-          if (mineBoolean[h * width + w])
-            repaint = true;
-          else 
-          {
-            if (cells[h][w] > 0)
-              repaint = true;
-          }
-        }
-      }
-      if (repaint)
-        repaint();
-    }
-  }
+        System.out.print("(h,w) = (" + h + "," + w + ");   ");
+        System.out.println("cells[h][w]=" + cells[h][w]);
+        repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      } // EO-if
+    } // EO-mousePressed
+  } // EO-class-GameMouseAdapter
 
   public void paintComponent(Graphics g) 
   {
      Image icon;
+     int h, w;
      if (initGame)
      {
-        for (int i = 0; i < width; i++)                                
-          for (int j = 0; j < height; j++) 
-          {
-            icon = new ImageIcon("img/b.png").getImage();
-            g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
-          }
+      for (int i = 0; i < width; i++)                                
+        for (int j = 0; j < height; j++) 
+        {
+          icon = new ImageIcon("img/b.png").getImage();
+          g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
+        }
         initGame = false;
      }
-     else 
+     else
      {
-        for (int i = 0; i < width; i++)                                 
-        {
-          for (int j = 0; j < height; j++) 
-          {
-            if (cells[i][j] >= 0)
-              icon = new ImageIcon("img/" + cells[i][j] + ".png").getImage();
-            else // cells[i][j] = -1 
-              icon = new ImageIcon("img/m.png").getImage();
-            g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
-          }
-        }
+        w = mousePoint.x/CELL_SIZE;
+        h = mousePoint.y/CELL_SIZE;
+        if (mineBoolean[h * width + w])
+          icon = new ImageIcon("img/m.png").getImage();
+        else
+          icon = new ImageIcon("img/" + cells[h][w] + ".png").getImage();
+        g.drawImage(icon, w * CELL_SIZE, h * CELL_SIZE, this);
      }
    } // EO-paintComponent
 }
