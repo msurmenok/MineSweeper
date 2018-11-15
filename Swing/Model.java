@@ -26,13 +26,11 @@ public class Model extends JPanel
     private boolean[] mineBoolean;
 
     private boolean initGame;
+    private boolean haltGame;
 
-    private boolean paintFlag;
-    private boolean paintClosed;
     private boolean isLeftClick;
     private boolean isRightClick;
-    private boolean done;
-    private boolean isSet;
+    
 
     public Model(int height, int width, int m) {
 
@@ -52,16 +50,12 @@ public class Model extends JPanel
       mineBoolean = new boolean[N];
                                     
       initGame = true;
-      paintFlag = false;
-      paintClosed = true;
+      haltGame = false;
       isLeftClick = false;
       isRightClick = false;
-      done = false;
-      isSet = false;
 
       generateMineField();                      
       calcAdjacentMines();
-      //addMouseListener(new GameMouseAdapter());
       drawOneCell();
       System.out.println(initGame);
     }
@@ -144,35 +138,28 @@ public class Model extends JPanel
         int w = x/CELL_SIZE;
         int h = y/CELL_SIZE;
                                                                                                   
+        Cell cell = cells[h][w];
+        adjacentMines = cell.adjacentMines();
         /**
          * LEFT click
          */
         if ((x < FIELD_WIDTH) && (y < FIELD_HEIGHT) 
             && (SwingUtilities.isLeftMouseButton(event)))
         {
-          System.out.print("Left-Click: (h,w) = (" + h + "," + w + ");   ");
-          System.out.println("cells[h][w]=" + cells[h][w].adjacentMines());
+          System.out.println("Left-Click: cells["+h+"]["+w+"]="+adjacentMines);
           isLeftClick = true;
           isRightClick = false;
-          //repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-
-          //case 'o': // 'o'pen a selected cell
-          isSet = isOpenCell(h, w);
-          if (isSet) // already opened
-          {
-            done = gameEnds();
-            if (done)
-              System.out.println("******You win!******\n");
-            // else
-            // do-nothing as it's already opened cell
-          }
-         else  // not yet opened
-         {
-           // then open a cell 
-           openCells(); 
-           System.out.println(">>>>>>>>>>>Mine detonated!<<<<<<<<<<\n");
-           done = true;
-         }
+          if (!cell.isOpened())  // closed
+            if (adjacentMines == -1)
+            {
+              haltGame = true;
+              repaint();
+            }
+            else if (adjacentMines > 0) 
+              repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            else  // adjacentMines == 0
+              repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+              //openZeroCounter(h, w);
         } // EO-if-(SwingUtilities.isLeftMouseButton(event))
         /**
          * RIGHT click
@@ -180,15 +167,11 @@ public class Model extends JPanel
         else if ((x < FIELD_WIDTH) && (y < FIELD_HEIGHT) && 
             (SwingUtilities.isRightMouseButton(event)))
         {
+          System.out.println("Right-Click: cells["+h+"]["+w+"].isOpened()=" + cell.isFlagged());
           isLeftClick = false;
           isRightClick = true;
-          System.out.println("Right-Click: (h,w) = (" + h + "," + w + ");   ");
-          //case 'f': // 'f'lag to set/unset toggle
-          toggleFlag(h, w);
-          done = gameEnds();
-          repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-          if (done)
-            System.out.println("******You win!******\n");
+          if (!cell.isOpened())  // closed
+            repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         } // EO-if-(SwingUtilities.isRightMouseButton(event)))
         /**
          * MIDDLE click
@@ -209,19 +192,13 @@ public class Model extends JPanel
       {
         // !cell.hasFlagSet => set Flag (i.e. hasFlagSet)
         // repaint with ?
-        paintFlag = true;
-        paintClosed = false;
-        repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         flagged_counter += 1;
         mine_counter -= 1;
       }
       else  // !hasFlagSet
       {
-        paintFlag = false;
-        paintClosed = true;
         // cell.hasFlagSet => unset Flag (i.e. !hasFlagSet)
         // repaint with closed
-        repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         //drawOneCell(h, w, CLOSED);
         flagged_counter -= 1;
         mine_counter += 1;
@@ -241,13 +218,6 @@ public class Model extends JPanel
       //      flagged_counter, mine_counter, opened_counter, N-opened_counter));
       ;
     } 
-
-    public void openCells() 
-    {
-      for (int h = 0; h < height; h++) 
-        for (int w = 0; w < width; w++) 
-            repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-    }
 
     /**
      * whenever isOpenCell is called
@@ -328,12 +298,11 @@ public class Model extends JPanel
       int opened_counter = 1;
       // display this empty open cell
       repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-      //drawOneCell(h, w, OPENED);
       // AND 
       // now check this cell's adjacentMines
       // display the # of adjacentMines
       // and update opened_counter
-      int adjacentMines = cell.adjacentMines();
+      adjacentMines = cell.adjacentMines();
       if (adjacentMines > 0) 
       {
           repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -362,28 +331,53 @@ public class Model extends JPanel
       for (int i = 0; i < width; i++)                                
         for (int j = 0; j < height; j++) 
         {
-          icon = new ImageIcon("img/c.png").getImage();
+          icon = new ImageIcon("img/c.png").getImage(); // closed cell img
           g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
         }
         initGame = false;
+     }
+     else if (haltGame)
+     {
+      for (int i = 0; i < width; i++)                                
+      {
+        for (int j = 0; j < height; j++) 
+        {
+          adjacentMines = cells[j][i].adjacentMines(); 
+          if (adjacentMines == -1)
+            icon = new ImageIcon("img/m.png").getImage(); // mine
+          else if (adjacentMines > 0)
+            icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
+          else
+            icon = new ImageIcon("img/0.png").getImage(); // empty cell
+          g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
+        }
+      }
+      System.out.println(">>>>>>>>>>> Mine Detonated!!! <<<<<<<<<<");
      }
      else // !initGame
      {
         w = mousePoint.x/CELL_SIZE;
         h = mousePoint.y/CELL_SIZE;
+
+        Cell cell = cells[h][w];
+        adjacentMines = cell.adjacentMines();
+
         if (isLeftClick)
         {
-          if (mineBoolean[h * width + w]) // mineCell
-            icon = new ImageIcon("img/m.png").getImage();
-          else // !mineCell 
-            icon = new ImageIcon("img/" + cells[h][w].adjacentMines() + ".png").getImage();
+          if (adjacentMines == -1)
+            icon = new ImageIcon("img/m.png").getImage(); // mine
+          else if (adjacentMines > 0)
+            icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
+          else // (adjacentMines  ==  0)
+            icon = new ImageIcon("img/0.png").getImage(); // empty cell
         } // isLeftClick
         else // (isRightClick)
         {
-          if (cells[h][w].isFlagged()) // isFlagged, paint with closed icon
-            icon = new ImageIcon("img/c.png").getImage();
-          else // !isFlagged, paint with flag icon "?"
-            icon = new ImageIcon("img/f.png").getImage();
+          toggleFlag(h, w);
+          if (cell.isFlagged()) // => back to closed img 
+            icon = new ImageIcon("img/c.png").getImage(); // closed img
+          else // !isFlagged // => flag img
+            icon = new ImageIcon("img/f.png").getImage(); // flag img
         } // isRightClick
         g.drawImage(icon, w * CELL_SIZE, h * CELL_SIZE, this);
      }// EO-else(!initGame)

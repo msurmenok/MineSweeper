@@ -8,8 +8,8 @@ public class Game
 
     int top = 5;    // top-left-corner on console screen
     int left = 5;   // top-left-corner on console screen
-    int height = 8; // Field dimension 
-    int width = 8;  // Field dimension 
+    int height = 10; // Field dimension 
+    int width = 10;  // Field dimension 
     int mines = 8; // Number of mines
     Model model = new Model(top, left, height, width, mines);
     model.displayField();

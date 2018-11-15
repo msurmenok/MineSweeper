@@ -210,6 +210,8 @@ public class Model {
           {
             char c = (char) ('0' + adjacentMines);
             drawOneCell(h, w, c);
+            //String s = "("+h+","+w+")";
+            //System.out.print(s);
           }
         }
       }
