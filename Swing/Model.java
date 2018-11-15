@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Point;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
 
 public class Model extends JPanel 
 {
@@ -30,6 +31,7 @@ public class Model extends JPanel
 
     private boolean isLeftClick;
     private boolean isRightClick;
+    private boolean isEmptyCell;
     
 
     public Model(int height, int width, int m) {
@@ -140,6 +142,9 @@ public class Model extends JPanel
                                                                                                   
         Cell cell = cells[h][w];
         adjacentMines = cell.adjacentMines();
+
+        boolean done = false;
+        boolean isSet;
         /**
          * LEFT click
          */
@@ -149,7 +154,9 @@ public class Model extends JPanel
           System.out.println("Left-Click: cells["+h+"]["+w+"]="+adjacentMines);
           isLeftClick = true;
           isRightClick = false;
+          /*
           if (!cell.isOpened())  // closed
+          {
             if (adjacentMines == -1)
             {
               haltGame = true;
@@ -157,9 +164,27 @@ public class Model extends JPanel
             }
             else if (adjacentMines > 0) 
               repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-            else  // adjacentMines == 0
-              repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-              //openZeroCounter(h, w);
+            else 
+              openSurroundings(h, w);
+              //repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+           }
+           */
+           isSet = isOpenCell(h, w);
+           if (isSet) // either already opened or open it
+           {
+             done = gameEnds();
+             if (done)
+               System.out.println("***********You win!***********");
+             // else
+             // do-nothing as it's already opened cell
+           }
+           else  // it's a mine cell
+           {
+             //openCells(); 
+             haltGame = true;
+             repaint();
+             done = true;
+           }
         } // EO-if-(SwingUtilities.isLeftMouseButton(event))
         /**
          * RIGHT click
@@ -171,13 +196,15 @@ public class Model extends JPanel
           isLeftClick = false;
           isRightClick = true;
           if (!cell.isOpened())  // closed
+          {
             repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            done = gameEnds();
+            if (done)
+              System.out.println("***********You win!***********");
+          }
         } // EO-if-(SwingUtilities.isRightMouseButton(event)))
-        /**
-         * MIDDLE click
-         */
-        else // middle mouse button?
-          ;  // do-nothing
+        else
+          ; 
       } // EO-mousePressed
     });
   } // EO-drawOneCell()
@@ -222,6 +249,10 @@ public class Model extends JPanel
     /**
      * whenever isOpenCell is called
      * update the opened_counter
+     *
+     * cells[h][w] 
+     * values: -1 (mine), 0 (empty), 1-8 (adjacent cells)
+     * state: isOpened (including isFlagged), !isOpened (mineBoolean[h*width+w])
      */
     public boolean isOpenCell(int h, int w) 
     {
@@ -231,33 +262,40 @@ public class Model extends JPanel
       if (cell.isFlagged())
           return true;
 
-      // check adjacentMines w/r/t cells[h][w]
+      if (cell.isOpened())
+          return true;
+
       int adjacentMines = cell.adjacentMines();
-      // if it's a mine cell, isOpenCell false
+
+      // if it's a mine cell, must be !isOpenCell, 
+      // otherwise game must be over.
       if (adjacentMines == -1) 
           return false;
 
+      // down below !cell.isOpened(), i.e. closed
       // opened_counter starts
       int opened_counter = 0;
-      if (adjacentMines > 0 && !cell.isOpened())
+      if (adjacentMines > 0) // && !cell.isOpened())
       {
           // set this cell opened 
           // opened_counter + 1
           // show this cell
           cell.setOpen();
+          //////////////////
           opened_counter = 1;
           repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
           //char c = (char) ('0' + adjacentMines);
           //drawOneCell(h, w, c);
       } 
-      else  // 0 (no mines around)
+      else  // empty cell, then don't open this cell yet, rather open areas
       {
           /** 
            * openZeroCounter(int h, int w) 
            * will recursively count opened cells 
            */
-          opened_counter = openZeroCounter(h, w);
-          repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+          System.out.println("adjacentMines="+adjacentMines);
+          //opened_counter = openZeroCounter(h, w);
+          openZeroArea(h, w);
       }
 
       // accumulative opened_counter
@@ -273,9 +311,20 @@ public class Model extends JPanel
     }
 
 
+    /**
+     * used flood-fill algorithm
+     * https://en.wikipedia.org/wiki/Flood_fill
+     *
+     * cells[h][w] 
+     * values: -1 (mine), 0 (empty), 1-8 (adjacent cells)
+     *                    *********
+     * state: isOpened (including isFlagged), !isOpened (mineBoolean[h*width+w])
+     *
+     */
+    /*
     private int openZeroCounter(int h, int w) 
     {
-      // boundary check
+      // boundary check for adjacentMines areas by recursion
       if (h < 0 || height <= h || w < 0 || width <= w)
           return 0;
 
@@ -288,24 +337,27 @@ public class Model extends JPanel
       if (cell.isFlagged())
           return 0;
       if (cell.isOpened())
-          return 0;
+        return 0;
 
       // ELSE
       //////////////////////////////////
       // now set this cell opened
       cell.setOpen();
+
       // increase opened_counter
       int opened_counter = 1;
-      // display this empty open cell
+      // display current cell: cells[h][w]
+      System.out.println(cell.adjacentMines());
       repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-      // AND 
-      // now check this cell's adjacentMines
+      //paintImmediately(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      //
+      // now recursive calls for adjacent cells
       // display the # of adjacentMines
       // and update opened_counter
-      adjacentMines = cell.adjacentMines();
+      int adjacentMines = cell.adjacentMines();
       if (adjacentMines > 0) 
       {
-          repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+          paintImmediately(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
           //char c = (char) ('0' + adjacentMines);
           //drawOneCell(h, w, c);
           return opened_counter;
@@ -320,6 +372,32 @@ public class Model extends JPanel
       opened_counter += openZeroCounter(h + 1, w + 0);  // 7
       opened_counter += openZeroCounter(h + 1, w + 1);  // 8
       return opened_counter;
+    }
+    */
+    /**
+     * cells[h][w] 
+     * values: -1 (mine), 0 (empty), 1-8 (adjacent cells)
+     *                    *********
+     * state: isOpened (including isFlagged), !isOpened (mineBoolean[h*width+w])
+     */
+    private void openZeroArea(int h, int w) 
+    {
+      Cell cell  = cells[h][w];
+      paintImmediately(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      cell.setOpen();
+      for (int i = h - 1; i <= h + 1; i++) 
+        for (int j = w - 1; j <= w + 1; j++) 
+          if ((i >= 0 || i <= height) && (j >= 0 || j <= width))
+          {
+            System.out.println(i + ", "+ j);
+            cell  = cells[i][j];
+            if (!cell.isOpened() && !cell.isFlagged() && cell.adjacentMines() > 0)
+            {
+              cell.setOpen();
+              paintImmediately(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+              System.out.println("Loop: openZeroArea("+i+","+j+")");
+            }
+          }
     }
 
   public void paintComponent(Graphics g) 
@@ -358,6 +436,7 @@ public class Model extends JPanel
      {
         w = mousePoint.x/CELL_SIZE;
         h = mousePoint.y/CELL_SIZE;
+        System.out.println("paintComponent("+h+","+w+")");
 
         Cell cell = cells[h][w];
         adjacentMines = cell.adjacentMines();
@@ -384,3 +463,33 @@ public class Model extends JPanel
    } // EO-paintComponent
 }
 
+
+/**
+ * controller
+ *
+            case 'o': // 'o'pen a selected cell
+                isSet = model.isOpenCell(h, w);
+                if (isSet) // already opened
+                {
+                  done = model.gameEnds();
+                  if (done)
+                    View.message("You win!\n");
+                  // else
+                  // do-nothing as it's already opened cell
+                }
+                else  // not yet opened
+                {
+                  // then open a cell 
+                  model.openCells(); 
+                  View.message("Mine detonated!\n");
+                  done = true;
+                }
+                break;
+            case 'f': // 'f'lag to set/unset toggle
+                model.toggleFlag(h, w);
+                done = model.gameEnds();
+                if (done)
+                  View.message("You win!\n");
+                break;
+                
+*/
