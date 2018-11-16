@@ -382,22 +382,27 @@ public class Model extends JPanel
      */
     private void openZeroArea(int h, int w) 
     {
-      Cell cell  = cells[h][w];
-      paintImmediately(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-      cell.setOpen();
-      for (int i = h - 1; i <= h + 1; i++) 
-        for (int j = w - 1; j <= w + 1; j++) 
-          if ((i >= 0 || i <= height) && (j >= 0 || j <= width))
-          {
-            System.out.println(i + ", "+ j);
-            cell  = cells[i][j];
-            if (!cell.isOpened() && !cell.isFlagged() && cell.adjacentMines() > 0)
+      if ((h >= 0 || h < height) && (w >= 0 || w < width))
+      {
+        Cell cell  = cells[h][w];
+        paintImmediately(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        cell.setOpen();
+      }
+        for (int i = h - 1; i <= h + 1; i++) 
+          for (int j = w - 1; j <= w + 1; j++) 
+            if (i < 0 || i >= height || j < 0 || j >= width)
+              ;
+            else
             {
-              cell.setOpen();
-              paintImmediately(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-              System.out.println("Loop: openZeroArea("+i+","+j+")");
+              System.out.println(i + ", "+ j);                                        
+              Cell cell  = cells[i][j];
+              if (!cell.isOpened() && !cell.isFlagged() && cell.adjacentMines() > 0)
+              {
+                cell.setOpen();
+                paintImmediately(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                System.out.println("Loop: openZeroArea("+i+","+j+")");
+              }
             }
-          }
     }
 
   public void paintComponent(Graphics g) 
