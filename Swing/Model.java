@@ -397,60 +397,95 @@ public class Model extends JPanel
             }
     }
 
-  public void paintComponent(Graphics g) 
-  {
-     Image icon;
-     int h, w;
-     if (initGame)
-     {
-      for (int i = 0; i < width; i++)                                
-        for (int j = 0; j < height; j++) 
-        {
+  public void paintComponent(Graphics g) {
+    Image icon;
+    int h, w;
+    ///////////////////////////////////// 
+    if (initGame) {
+      for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
           icon = new ImageIcon("img/c.png").getImage(); // closed cell img
           g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
         }
-        initGame = false;
-     }
-     else if (haltGame)
-     {
-      for (int i = 0; i < width; i++)                                
-      {
-        for (int j = 0; j < height; j++) 
-        {
-          adjacentMines = cells[j][i].adjacentMines(); 
-          if (adjacentMines == -1)
-            icon = new ImageIcon("img/m.png").getImage(); // mine
-          else if (adjacentMines > 0)
-            icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
-          else
-            icon = new ImageIcon("img/0.png").getImage(); // empty cell
-          g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
-        }
       }
-      System.out.println(">>>>>>>>>>> Mine Detonated!!! <<<<<<<<<<");
-     }
-     else if (repaintArray)
-     {
-       for (Point xy: pointArray)
-       {
-         w = (int) xy.getX();    
-         h = (int) xy.getY();    
-         System.out.println("repaintArray: paintComponent("+h+","+w+")");
-
-         Cell cell = cells[h][w];
-         adjacentMines = cell.adjacentMines();
-
-         if (adjacentMines == -1)                                                           
+      initGame = false;
+    } 
+    ///////////////////////////////////// 
+    else if (haltGame) {
+     for (int i = 0; i < width; i++) {
+       for (int j = 0; j < height; j++) {
+         adjacentMines = cells[j][i].adjacentMines(); 
+         if (adjacentMines == -1)
            icon = new ImageIcon("img/m.png").getImage(); // mine
          else if (adjacentMines > 0)
            icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
-         else // (adjacentMines  ==  0)
+         else
            icon = new ImageIcon("img/0.png").getImage(); // empty cell
-         g.drawImage(icon, w * CELL_SIZE, h * CELL_SIZE, this);
+         g.drawImage(icon, (i * CELL_SIZE), (j * CELL_SIZE), this);
        }
      }
-     else 
-     {
+     System.out.println(">>>>>>>>>>> Mine Detonated!!! <<<<<<<<<<");
+    }
+    ///////////////////////////////////// 
+    /**
+     * when open the empty cell,
+     * collect adjacent non-mine cells list
+     * then repaint one by one
+     * otherwise, repaint can't properly done
+     */
+    else if (repaintArray) {
+
+      if (isLeftClick) {
+
+        /**
+         * loop over entire cell and
+         * trace whether cell is in repaintArray
+         * update[h][w] = 1 : repaint needed
+         * otherwise, 0
+         */
+        int[][] update = new int[height][width];
+
+        // initialization
+        for (int i = 0; i < width; i++)                                
+          for (int j = 0; j < height; j++) 
+            update[j][i] = 0;
+
+        // set 1 if from the repaintArray
+        for (Point xy: pointArray) { 
+          w = (int) xy.getX();    
+          h = (int) xy.getY();    
+          update[h][w] = 1;  
+        }
+
+        for (int i = 0; i < width; i++) {                                
+          for (int j = 0; j < height; j++) {
+            Cell cell = cells[j][i];                                                             
+            adjacentMines = cell.adjacentMines();
+            /** 
+             * update[h][w] = 1 : repaint needed
+             * or
+             * cell is already opened state
+             */
+            if (update[j][i] == 1 || cell.isOpened()) {
+              if (adjacentMines == -1)                                                            
+                icon = new ImageIcon("img/m.png").getImage(); // mine
+              else if (adjacentMines > 0)
+                icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
+              else // (adjacentMines  ==  0)
+                icon = new ImageIcon("img/0.png").getImage(); // empty cell
+              g.drawImage(icon, i * CELL_SIZE, j * CELL_SIZE, this);
+            } 
+            else { // not on the repaintArray
+              if (!cell.isOpened()) { // if cell is closed state
+                icon = new ImageIcon("img/c.png").getImage(); // empty cell
+                g.drawImage(icon, i * CELL_SIZE, j * CELL_SIZE, this);
+              }
+            }
+          }
+        }
+      } // isLeftClick
+    }
+    else {
         w = mousePoint.x/CELL_SIZE;
         h = mousePoint.y/CELL_SIZE;
         System.out.println("paintComponent("+h+","+w+")");

@@ -16,3 +16,60 @@ Possible workaround is to collect adjacent cell coordinate w/r/t the selected
 empty cell, and then repaint with this collection object (ArrayList<Point>).
 
 
+Tentatively Solved (dirty paint)
+
+  public void paintComponent(Graphics g) {
+    .....
+    .....
+    ///////////////////////////////////// 
+    /**
+     * when open the empty cell,
+     * collect adjacent non-mine cells list
+     * then repaint one by one
+     * otherwise, repaint can't properly done
+     */
+    else if (repaintArray) {
+
+      if (isLeftClick) {
+
+        /**
+         * loop over entire cell and
+         * trace whether cell is in repaintArray
+         * update[h][w] = 1 : repaint needed
+         * otherwise, 0
+         */
+        int[][] update = new int[height][width];
+
+        // initialization
+        for (int i = 0; i < width; i++)                                
+          for (int j = 0; j < height; j++) 
+            update[j][i] = 0;
+
+        // set 1 if from the repaintArray
+        for (Point xy: pointArray) { 
+          w = (int) xy.getX();    
+          h = (int) xy.getY();    
+          update[h][w] = 1;  
+        }
+
+        for (int i = 0; i < width; i++) {                                
+          for (int j = 0; j < height; j++) {
+            Cell cell = cells[j][i];                                                             
+            adjacentMines = cell.adjacentMines();
+            /** 
+             * update[h][w] = 1 : repaint needed
+             * or
+             * cell is already opened state
+             */
+            if (update[j][i] == 1 || cell.isOpened()) {
+              if (adjacentMines == -1)                                                            
+                icon = new ImageIcon("img/m.png").getImage(); // mine
+              else if (adjacentMines > 0)
+                icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
+              else // (adjacentMines  ==  0)
+                icon = new ImageIcon("img/0.png").getImage(); // empty cell
+              g.drawImage(icon, i * CELL_SIZE, j * CELL_SIZE, this);
+            } 
+            else { // not on the repaintArray
+....
+....
