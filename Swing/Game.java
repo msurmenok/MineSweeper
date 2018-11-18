@@ -12,7 +12,7 @@ public class Game
   {
     int width = 10;
     int height = 10;
-    int mines = 10;
+    int mines = 20;
     /**
      * A. Window - JFrame
      */

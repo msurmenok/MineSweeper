@@ -63,7 +63,6 @@ public class Model extends JPanel
       generateMineField();                      
       calcAdjacentMines();
       drawOneCell();
-      System.out.println(initGame);
     }
 
     private int hasMine(int h, int w) 
@@ -181,7 +180,7 @@ public class Model extends JPanel
         else if ((x < FIELD_WIDTH) && (y < FIELD_HEIGHT) && 
             (SwingUtilities.isRightMouseButton(event)))
         {
-          System.out.println("Right-Click: cells["+h+"]["+w+"].isOpened()=" + cell.isFlagged());
+          System.out.println("Right-Click: cells["+h+"]["+w+"].isOpened()=" + cell.isOpened());
           isLeftClick = false;
           isRightClick = true;
           if (!cell.isOpened())  // closed
@@ -338,7 +337,7 @@ public class Model extends JPanel
       // increase opened_counter
       int opened_counter = 1;
       // display current cell: cells[h][w]
-      System.out.println(cell.adjacentMines());
+      //System.out.println(cell.adjacentMines());
       xyPair = new Point(w, h);
       pointArray.add(xyPair);
       //repaint(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -386,7 +385,7 @@ public class Model extends JPanel
               ;
             else
             {
-              System.out.println(i + ", "+ j);                                        
+              //System.out.println(i + ", "+ j);                                        
               Cell cell  = cells[i][j];
               if (!cell.isOpened() && !cell.isFlagged() && cell.adjacentMines() > 0)
               {
@@ -433,9 +432,7 @@ public class Model extends JPanel
      * then repaint one by one
      * otherwise, repaint can't properly done
      */
-    else if (repaintArray) {
-
-      if (isLeftClick) {
+    else if (repaintArray && isLeftClick) {
 
         /**
          * loop over entire cell and
@@ -449,6 +446,7 @@ public class Model extends JPanel
         for (int i = 0; i < width; i++)                                
           for (int j = 0; j < height; j++) 
             update[j][i] = 0;
+
 
         // set 1 if from the repaintArray
         for (Point xy: pointArray) { 
@@ -473,22 +471,21 @@ public class Model extends JPanel
                 icon = new ImageIcon("img/" + adjacentMines + ".png").getImage(); // number cell
               else // (adjacentMines  ==  0)
                 icon = new ImageIcon("img/0.png").getImage(); // empty cell
-              g.drawImage(icon, i * CELL_SIZE, j * CELL_SIZE, this);
             } 
             else { // not on the repaintArray
-              if (!cell.isOpened()) { // if cell is closed state
+              if (cell.isFlagged())
+                icon = new ImageIcon("img/f.png").getImage(); // empty cell
+              else 
                 icon = new ImageIcon("img/c.png").getImage(); // empty cell
-                g.drawImage(icon, i * CELL_SIZE, j * CELL_SIZE, this);
-              }
             }
+            g.drawImage(icon, i * CELL_SIZE, j * CELL_SIZE, this);
           }
         }
-      } // isLeftClick
     }
     else {
         w = mousePoint.x/CELL_SIZE;
         h = mousePoint.y/CELL_SIZE;
-        System.out.println("paintComponent("+h+","+w+")");
+        //System.out.println("paintComponent("+h+","+w+")");
 
         Cell cell = cells[h][w];
         adjacentMines = cell.adjacentMines();
@@ -505,10 +502,10 @@ public class Model extends JPanel
         else // (isRightClick)
         {
           toggleFlag(h, w);
-          if (cell.isFlagged()) // => back to closed img 
-            icon = new ImageIcon("img/c.png").getImage(); // closed img
-          else // !isFlagged // => flag img
-            icon = new ImageIcon("img/f.png").getImage(); // flag img
+          if (cell.isFlagged()) 
+            icon = new ImageIcon("img/f.png").getImage(); 
+          else 
+            icon = new ImageIcon("img/c.png").getImage();
         } // isRightClick
         g.drawImage(icon, w * CELL_SIZE, h * CELL_SIZE, this);
      }// EO-else(!initGame)
