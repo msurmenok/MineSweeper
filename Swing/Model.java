@@ -62,7 +62,7 @@ public class Model extends JPanel
 
       generateMineField();                      
       calcAdjacentMines();
-      drawOneCell();
+      addMouseListener(new GameMouseAdapter());
     }
 
     private int hasMine(int h, int w) 
@@ -132,11 +132,8 @@ public class Model extends JPanel
       }
     }
 
-  //private class GameMouseAdapter extends MouseAdapter
-  public void drawOneCell() { 
-    addMouseListener(new MouseAdapter() {
-      public void mousePressed(MouseEvent event)                                                  
-      {
+  private class GameMouseAdapter extends MouseAdapter {
+      public void mousePressed(MouseEvent event) {
         mousePoint = event.getPoint();    
         int x = mousePoint.x;
         int y = mousePoint.y;
@@ -194,8 +191,7 @@ public class Model extends JPanel
         else
           ; 
       } // EO-mousePressed
-    });
-  } // EO-drawOneCell()
+  } // EO-class
 
 
     public void toggleFlag(int h, int w) 
