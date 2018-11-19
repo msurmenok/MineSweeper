@@ -1,14 +1,8 @@
 public class Cell {
     private int adjacentMines;
 
-    /**
-     * already flagged
-     */
     private boolean hasFlagSet;
 
-    /**
-     * already opened
-     */
     private boolean isOpened;
 
     public Cell(int adjacentMines) {
