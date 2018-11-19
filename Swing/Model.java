@@ -224,13 +224,14 @@ public class Model extends JPanel
 
     public void minecounter_view(String s) {
       //View.setPosition(2, 1);
-      System.out.print(s);
+      //System.out.print(s);
+      System.out.println(s);
     }
 
     private void minecounter_view() 
     {
-      //minecounter_view(String.format("Flags(%d) Mines(%d) Opend(%d) Closed(%d)\n", 
-      //      flagged_counter, mine_counter, opened_counter, N-opened_counter));
+      minecounter_view(String.format("Flags(%d) Mines(%d) Opend(%d) Closed(%d)\n", 
+            flagged_counter, mine_counter, opened_counter, N-opened_counter));
       ;
     } 
 

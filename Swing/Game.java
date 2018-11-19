@@ -10,9 +10,9 @@ public class Game
 
   public static void main(String[] args)
   {
-    int width = 10;
-    int height = 10;
-    int mines = 20;
+    int width = 8;
+    int height = 8;
+    int mines = 4;
     /**
      * A. Window - JFrame
      */
