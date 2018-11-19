@@ -44,7 +44,6 @@ public class Model extends JPanel
     initGame = true;
     calcAdjacentMines();
     addMouseListener(new GameMouseAdapter());
-    //drawOneCell();
 
   }
 

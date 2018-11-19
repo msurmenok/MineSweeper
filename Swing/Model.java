@@ -65,7 +65,7 @@ public class Model extends JPanel
       addMouseListener(new GameMouseAdapter());
     }
 
-    private int hasMine(int h, int w) 
+    private int hasMine(int h, int w)  // Model:Method
     {
       if (h < 0 || height <= h || w < 0 || width <= w)
         return 0;
@@ -76,7 +76,7 @@ public class Model extends JPanel
         return 0;
     }
 
-    private void generateMineField() 
+    private void generateMineField() // Model:Method 
     {
       // set mines WITHOUT DUPLICATE RANDOM NUMBERS
       // 1st. set a cell True if the cell index < # of mines
@@ -107,7 +107,7 @@ public class Model extends JPanel
      * 0, 1, ..., 8 otherwise
      *
      */
-    private void calcAdjacentMines()
+    private void calcAdjacentMines() // Model:Method 
     {
       cells = new Cell[height][width];
       for (int h = 0; h < height; h++) 
@@ -132,8 +132,8 @@ public class Model extends JPanel
       }
     }
 
-  private class GameMouseAdapter extends MouseAdapter {
-      public void mousePressed(MouseEvent event) {
+  private class GameMouseAdapter extends MouseAdapter { // Model:Class
+      public void mousePressed(MouseEvent event) {      // Model:Method
         mousePoint = event.getPoint();    
         int x = mousePoint.x;
         int y = mousePoint.y;
@@ -194,7 +194,7 @@ public class Model extends JPanel
   } // EO-class
 
 
-    public void toggleFlag(int h, int w) 
+    public void toggleFlag(int h, int w)  // Model:Method
     {
       Cell cell = cells[h][w];
       if (cell.isOpened())
@@ -218,7 +218,7 @@ public class Model extends JPanel
       //setPosition(h, w);
     }
 
-    private void minecounter_view() 
+    private void minecounter_view()  // Model:Method
     {
       System.out.println(String.format("Flags(%d) Mines(%d) Opend(%d) Closed(%d)\n", 
             flagged_counter, mine_counter, opened_counter, N-opened_counter));
@@ -232,7 +232,7 @@ public class Model extends JPanel
      * values: -1 (mine), 0 (empty), 1-8 (adjacent cells)
      * state: isOpened (including isFlagged), !isOpened (mineBoolean[h*width+w])
      */
-    public boolean isOpenCell(int h, int w) 
+    public boolean isOpenCell(int h, int w)  // Model:Method
     {
       Cell cell = cells[h][w];
 
@@ -266,13 +266,13 @@ public class Model extends JPanel
       else  // empty cell, then don't open this cell yet, rather open areas
       {
           /** 
-           * openZeroCounter(int h, int w) 
+           * openZeroArea(int h, int w) 
            * will recursively count opened cells 
            */
           //openZeroArea(h, w);
           repaintArray = false;
           pointArray = new ArrayList<Point>();
-          opened_counter = openZeroCounter(h, w);
+          opened_counter = openZeroArea(h, w);
           repaintArray = true;
           if (repaintArray) {
             repaint();
@@ -286,7 +286,7 @@ public class Model extends JPanel
       return true;
     }
 
-    public boolean gameEnds() 
+    public boolean gameEnds()  // Model:Method
     {
       return flagged_counter == init_mines && (opened_counter + flagged_counter) == N;
     }
@@ -302,7 +302,7 @@ public class Model extends JPanel
      * state: isOpened (including isFlagged), !isOpened (mineBoolean[h*width+w])
      *
      */
-    private int openZeroCounter(int h, int w) 
+    private int openZeroArea(int h, int w) // Model:Method
     {
       // boundary check for adjacentMines areas by recursion
       if (h < 0 || height <= h || w < 0 || width <= w)
@@ -345,18 +345,18 @@ public class Model extends JPanel
         return opened_counter;
       }
       // counts opened cells recursively from adjacent cells
-      opened_counter += openZeroCounter(h - 1, w - 1);  // 1
-      opened_counter += openZeroCounter(h - 1, w + 0);  // 2
-      opened_counter += openZeroCounter(h - 1, w + 1);  // 3
-      opened_counter += openZeroCounter(h + 0, w - 1);  // 4
-      opened_counter += openZeroCounter(h + 0, w + 1);  // 5
-      opened_counter += openZeroCounter(h + 1, w - 1);  // 6
-      opened_counter += openZeroCounter(h + 1, w + 0);  // 7
-      opened_counter += openZeroCounter(h + 1, w + 1);  // 8
+      opened_counter += openZeroArea(h - 1, w - 1);  // 1
+      opened_counter += openZeroArea(h - 1, w + 0);  // 2
+      opened_counter += openZeroArea(h - 1, w + 1);  // 3
+      opened_counter += openZeroArea(h + 0, w - 1);  // 4
+      opened_counter += openZeroArea(h + 0, w + 1);  // 5
+      opened_counter += openZeroArea(h + 1, w - 1);  // 6
+      opened_counter += openZeroArea(h + 1, w + 0);  // 7
+      opened_counter += openZeroArea(h + 1, w + 1);  // 8
       return opened_counter;
     }
 
-  public void paintComponent(Graphics g) {
+  public void paintComponent(Graphics g) { // Model:Method
     Image icon;
     int h, w;
     ///////////////////////////////////// 
