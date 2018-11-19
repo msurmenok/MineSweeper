@@ -218,17 +218,10 @@ public class Model extends JPanel
       //setPosition(h, w);
     }
 
-    public void minecounter_view(String s) {
-      //View.setPosition(2, 1);
-      //System.out.print(s);
-      System.out.println(s);
-    }
-
     private void minecounter_view() 
     {
-      minecounter_view(String.format("Flags(%d) Mines(%d) Opend(%d) Closed(%d)\n", 
+      System.out.println(String.format("Flags(%d) Mines(%d) Opend(%d) Closed(%d)\n", 
             flagged_counter, mine_counter, opened_counter, N-opened_counter));
-      ;
     } 
 
     /**
@@ -362,36 +355,6 @@ public class Model extends JPanel
       opened_counter += openZeroCounter(h + 1, w + 1);  // 8
       return opened_counter;
     }
-    /**
-     * cells[h][w] 
-     * values: -1 (mine), 0 (empty), 1-8 (adjacent cells)
-     *                    *********
-     * state: isOpened (including isFlagged), !isOpened (mineBoolean[h*width+w])
-     */
-    private void openZeroArea(int h, int w) 
-    {
-      if ((h >= 0 || h < height) && (w >= 0 || w < width))
-      {
-        Cell cell  = cells[h][w];
-        paintImmediately(w * CELL_SIZE, h * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        cell.setOpen();
-      }
-        for (int i = h - 1; i <= h + 1; i++) 
-          for (int j = w - 1; j <= w + 1; j++) 
-            if (i < 0 || i >= height || j < 0 || j >= width)
-              ;
-            else
-            {
-              //System.out.println(i + ", "+ j);                                        
-              Cell cell  = cells[i][j];
-              if (!cell.isOpened() && !cell.isFlagged() && cell.adjacentMines() > 0)
-              {
-                cell.setOpen();
-                paintImmediately(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                System.out.println("Loop: openZeroArea("+i+","+j+")");
-              }
-            }
-    }
 
   public void paintComponent(Graphics g) {
     Image icon;
@@ -508,5 +471,3 @@ public class Model extends JPanel
      }// EO-else(!initGame)
    } // EO-paintComponent
 }
-
-
