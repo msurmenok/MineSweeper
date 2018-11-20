@@ -9,7 +9,7 @@ import java.util.Queue;
  * 2. Instead of show(), update(), and displayTime(), 
  *    create method void change(Model model)
  */
-public class GameView extends JFrame {
+public class View extends JFrame {
 
   Queue messageQueue;
   GameModel model;
