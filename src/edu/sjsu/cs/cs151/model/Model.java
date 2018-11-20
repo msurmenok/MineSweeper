@@ -53,14 +53,23 @@ public class Model {
 	/**
 	 * If cell is already flagged, remove flag, otherwise set flag
 	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
+	 * @param h
+	 *            
+	 * @param w
 	 *            y coordinate
 	 */
-	void toggleCellFlag(int x, int y) {
-
+	void toggleCellFlag(int h, int w) {
+		this.mineField.toggleFlag(h, w);
+		if (this.mineField.cells[h][w].isFlagged()) {
+			this.mineCounter.increaseMine();
+		}
+		else {
+			this.mineCounter.decreaseMine();
+		}
+			
 	}
+	
+	
 
 	/**
 	 * Record the staring time of the first click
