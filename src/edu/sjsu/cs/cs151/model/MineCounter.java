@@ -16,13 +16,13 @@ public class MineCounter {
   /**
   * number of mines is decreased by 1 upon setFlag() 
    */
-  private void decreaseMine() {
+ public void decreaseMine() {
     numOfMines--;
   }
   /**
    * number of mines is increased by 1 when removeFlag()
    */
-  private void increaseMine() {
+  public void increaseMine() {
     numOfMines++;
   }
 }
