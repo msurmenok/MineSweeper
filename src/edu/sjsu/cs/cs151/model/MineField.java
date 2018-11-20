@@ -15,6 +15,7 @@ public class MineField {
 	int numberOfMines;
 	private int numberOfCells;
 	private boolean[] mineBoolean;
+	private int numberOfOpenedCells;
 
 	/**
 	 * Generate mine field for the first time
@@ -31,6 +32,7 @@ public class MineField {
 		generateMineField();
 		this.calcAdjacentMines();
 		cells = new Cell[height][width];
+		this.numberOfOpenedCells = 0;
 		// addMouseListener(new GameMouseAdapter());
 
 	}
@@ -169,6 +171,75 @@ public class MineField {
 			return;
 		}
 		cell.toggleFlag();
+	}
+
+	/**
+	 * Open cell at position(int h, int w)
+	 * 
+	 * @param h
+	 *            vertical position of cell
+	 * @param w
+	 *            horizontal position of cell
+	 * @return false if it is a mine or true otherwise
+	 */
+	public boolean open(int h, int w) {
+		Cell cell = cells[h][w];
+		if (cell.isFlagged() || cell.isOpened()) {
+			return true;
+		}
+		// closed cell
+		int adjacentMines = cell.adjacentMines();
+		if (adjacentMines == -1) { // stepped on the mines (lose)
+			return false;
+		}
+		if (adjacentMines > 0) {
+			cell.setOpen();
+			numberOfOpenedCells++;
+			return true;
+		} else { // empty cell
+			numberOfOpenedCells += openZeroArea(h, w);
+			return true;
+		}
+	}
+
+	private int openZeroArea(int h, int w) {
+		if (h < 0 || height <= h || w < 0 || width <= w)
+			return 0;
+
+		Cell cell = cells[h][w];
+
+		if (cell.isFlagged() || cell.isOpened())
+			return 0;
+		cell.setOpen();
+		int opened_counter = 1;
+
+		int adjacentMines = cell.adjacentMines();
+		if (adjacentMines > 0) {
+			return opened_counter;
+		}
+		// counts opened cells recursively from adjacent cells
+		opened_counter += openZeroArea(h - 1, w - 1); // 1
+		opened_counter += openZeroArea(h - 1, w + 0); // 2
+		opened_counter += openZeroArea(h - 1, w + 1); // 3
+		opened_counter += openZeroArea(h + 0, w - 1); // 4
+		opened_counter += openZeroArea(h + 0, w + 1); // 5
+		opened_counter += openZeroArea(h + 1, w - 1); // 6
+		opened_counter += openZeroArea(h + 1, w + 0); // 7
+		opened_counter += openZeroArea(h + 1, w + 1); // 8
+		return opened_counter;
+
+	}
+	
+	public int getNumOfOpenedCells() {
+		return numberOfOpenedCells;
+	}
+	
+	public int getNumOfTotalCells() {
+		return numberOfCells;
+	}
+	
+	public int getNumOfMines() {
+		return numberOfMines;
 	}
 
 }
