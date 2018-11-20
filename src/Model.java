@@ -15,7 +15,7 @@ public class Model
 	/**
 	 * Initialize state for a new game
 	 */
-	public GameModel()
+	public Model()
 	{
 		
 	}

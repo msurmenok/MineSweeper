@@ -12,10 +12,10 @@ import java.util.Queue;
 public class View extends JFrame {
 
   Queue messageQueue;
-  GameModel model;
+  Model model;
 
   // constructor
-  public GameView() {
+  public View() {
     messageQueue = new Queue();
     initUI();
   }
@@ -24,6 +24,6 @@ public class View extends JFrame {
    * Send updated model to render in GameView
    * @param model is updated model of the game
    */
-  public void change(GameModel model) {
+  public void change(Model model) {
   }
 }
