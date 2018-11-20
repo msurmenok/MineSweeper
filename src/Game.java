@@ -4,9 +4,9 @@
  *
  */
 public class Game {
-	GameView gameView;
-	GameController gameController;
-	GameModel gameModel;
+	View gameView;
+	Controller gameController;
+	Model gameModel;
 	
 	void main(String[] args)
 	{
