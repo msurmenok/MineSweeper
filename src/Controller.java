@@ -5,17 +5,17 @@ import java.util.Queue;
  * @author msurmenok
  *
  */
-public class GameController {
+public class Controller {
 	Queue messageQueue;
-	GameModel model;
-	GameView view;
+	Model model;
+	View view;
 	
 	/**
 	 * Initialize game controller
 	 * @param view GUI representation of the game
 	 * @param model model of the game
 	 */
-	public GameController(GameView view, GameModel model)
+	public Controller(View view, Model model)
 	{
 		this.view = view;
 		this.model = model;
