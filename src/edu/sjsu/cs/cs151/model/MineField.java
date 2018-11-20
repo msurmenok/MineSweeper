@@ -1,4 +1,5 @@
 package edu.sjsu.cs.cs151.model;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  *
  */
 public class MineField {
-	Cell[][] cells;
+	public Cell[][] cells;
 	int height;
 	int width;
 	int numberOfMines;
@@ -152,4 +153,22 @@ public class MineField {
 		// return cells[y][x];
 		return cells;
 	}
+
+	/**
+	 * Toggle flag on the cell
+	 * 
+	 * @param h
+	 *            vertical position of cell
+	 * @param w
+	 *            horizontal position of cell
+	 */
+	public void toggleFlag(int h, int w) // Model:Method
+	{
+		Cell cell = cells[h][w];
+		if (cell.isOpened()) {
+			return;
+		}
+		cell.toggleFlag();
+	}
+
 }
