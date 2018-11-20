@@ -8,14 +8,26 @@ import java.util.Date;
  */
 public class Model {
 	private MineField mineField;
-	private Date staringTime;
+	//private Date staringTime;
 	private MineCounter mineCounter;
+	
+	private int height;
+	private int width;
+	private int numberOfMines;
 
 	/**
 	 * Initialize state for a new game
 	 */
-	public Model() {
-
+	public Model(Difficulty difficulty) {
+		if (difficulty == Difficulty.EASY)
+		{
+			this.height = 8;
+			this.width = 8;
+			this.numberOfMines = 4;
+		}
+		
+		this.mineField = new MineField(height, width, numberOfMines);
+		this.mineCounter = new MineCounter(this.numberOfMines);
 	}
 
 	/**

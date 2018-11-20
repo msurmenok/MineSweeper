@@ -8,7 +8,8 @@ public class MineCounter {
   private int numOfMines;
 
   // constructor
-  public MineCounter() {
+  public MineCounter(int numbOfMines) {
+	  this.numOfMines = numbOfMines;
   }
 
   /**
