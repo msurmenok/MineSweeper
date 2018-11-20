@@ -26,7 +26,8 @@ public class MineField {
 
 		numberOfCells = height * width;
 		mineBoolean = new boolean[numberOfCells];
-		// generateMineField();
+		generateMineField();
+		this.calcAdjacentMines();
 		cells = new Cell[height][width];
 		// addMouseListener(new GameMouseAdapter());
 
