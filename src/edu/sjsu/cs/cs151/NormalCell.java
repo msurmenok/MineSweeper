@@ -1,3 +1,6 @@
+package edu.sjsu.cs.cs151;
+import edu.sjsu.cs.cs151.model.Cell;
+
 /**
  * A subclass of Cell that stores empty cell
  * @author jing

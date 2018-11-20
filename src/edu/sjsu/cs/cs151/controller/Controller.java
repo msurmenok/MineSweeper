@@ -1,4 +1,8 @@
+package edu.sjsu.cs.cs151.controller;
 import java.util.Queue;
+
+import edu.sjsu.cs.cs151.model.Model;
+import edu.sjsu.cs.cs151.view.View;
 
 /**
  * Controls the game

@@ -1,4 +1,8 @@
+package edu.sjsu.cs.cs151.view;
 import javax.swing.JFrame;
+
+import edu.sjsu.cs.cs151.model.Model;
+
 import java.util.Queue;
 
 /**

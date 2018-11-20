@@ -1,3 +1,4 @@
+package edu.sjsu.cs.cs151.model;
 public class Cell {
 	private int adjacentMines;
 

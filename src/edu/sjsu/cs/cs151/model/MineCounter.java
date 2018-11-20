@@ -1,3 +1,4 @@
+package edu.sjsu.cs.cs151.model;
 /**
  * MineCounter: 
  * number of mines is decreased by 1 upon setFlag() 

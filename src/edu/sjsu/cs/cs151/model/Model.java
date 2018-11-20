@@ -1,3 +1,4 @@
+package edu.sjsu.cs.cs151.model;
 import java.util.Date;
 
 /**

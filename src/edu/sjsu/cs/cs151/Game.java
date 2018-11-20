@@ -1,3 +1,8 @@
+package edu.sjsu.cs.cs151;
+import edu.sjsu.cs.cs151.controller.Controller;
+import edu.sjsu.cs.cs151.model.Model;
+import edu.sjsu.cs.cs151.view.View;
+
 /**
  * Creates Model, View, and Controller and starts mainLoop from controller
  * @author msurmenok
