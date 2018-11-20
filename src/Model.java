@@ -5,7 +5,7 @@ import java.util.Date;
  * @author msurmenok
  * 
  */
-public class GameModel 
+public class Model 
 {
 	private MineField mineField;
 	private Date staringTime;
