@@ -1,6 +1,8 @@
 package edu.sjsu.cs.cs151.controller;
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
+import edu.sjsu.cs.cs151.Message;
 import edu.sjsu.cs.cs151.model.Model;
 import edu.sjsu.cs.cs151.view.View;
 
@@ -10,7 +12,7 @@ import edu.sjsu.cs.cs151.view.View;
  *
  */
 public class Controller {
-	Queue messageQueue;
+	BlockingQueue<Message> queue;
 	Model model;
 	View view;
 	
@@ -19,12 +21,11 @@ public class Controller {
 	 * @param view GUI representation of the game
 	 * @param model model of the game
 	 */
-	public Controller(View view, Model model)
+	public Controller(View view, Model model, BlockingQueue<Message> queue)
 	{
 		this.view = view;
 		this.model = model;
-		// TODO: create field messageQueue in GameView
-		//this.messageQueue = view.messageQueue;
+		this.queue = queue;
 	}
 	
 	/**
