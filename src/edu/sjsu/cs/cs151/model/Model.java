@@ -38,7 +38,7 @@ public class Model {
 	/**
 	 * Reset state. Reinitialize field with mines
 	 */
-	void restartGame() {
+	public void restartGame() {
 
 	}
 
@@ -50,7 +50,7 @@ public class Model {
 	 * @param y
 	 *            y coordinate of clicked cell
 	 */
-	void openCell(int h, int w) {
+	public void openCell(int h, int w) {
 		gameContinue = this.mineField.open(h, w);
 	}
 
@@ -62,7 +62,7 @@ public class Model {
 	 * @param w
 	 *            y coordinate
 	 */
-	void toggleCellFlag(int h, int w) {
+	public void toggleCellFlag(int h, int w) {
 		this.mineField.toggleFlag(h, w);
 		if (this.mineField.cells[h][w].isFlagged()) {
 			this.mineCounter.increaseMine();
@@ -75,7 +75,7 @@ public class Model {
 	/**
 	 * Record the staring time of the first click
 	 */
-	void setStartingTime() { // Thinking to move this part to game
+	public void setStartingTime() { // Thinking to move this part to game
 
 	}
 
