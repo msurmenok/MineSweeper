@@ -1,5 +1,7 @@
 package edu.sjsu.cs.cs151;
 
-public interface Message {
+import java.io.Serializable;
+
+public abstract class Message implements Serializable{
 
 }

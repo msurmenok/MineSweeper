@@ -1,5 +1,5 @@
 package edu.sjsu.cs.cs151;
 
-public class NewGameMessage implements Message{
+public class NewGameMessage extends Message{
 
 }
