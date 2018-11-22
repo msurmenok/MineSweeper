@@ -49,6 +49,15 @@ public class GameInfo {
 		return FLAGGED;
 	}
 	
+	/**
+	 * Getter for gameStatus 
+	 * @return gameStatus
+	 */
+	public int[][] getGameStatus(){
+		return gameStatus;
+	}
+	
+	
 	public void print() { // for debugging use only
 		int h = gameStatus.length;
 		int w = gameStatus[0].length;
