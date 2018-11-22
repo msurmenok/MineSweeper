@@ -16,9 +16,9 @@ public class Game {
 	private static View view;
 	private static Model model;
 
-	void main(String[] args) {
-		this.view = View.init(queue);
-		this.model = new Model(Difficulty.EASY);
+	public static void main(String[] args) {
+		view = View.init(queue);
+		model = new Model(Difficulty.EASY);
 
 		Controller game = new Controller(view, model, queue);
 		game.mainLoop();
