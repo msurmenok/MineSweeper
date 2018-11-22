@@ -4,9 +4,6 @@ import java.util.Date;
 
 /**
  * Model that contains state of all objects of the game
- * 
- * @author msurmenok
- * 
  */
 public class Model {
 	private MineField mineField;
@@ -78,7 +75,7 @@ public class Model {
 	/**
 	 * Record the staring time of the first click
 	 */
-	void setStartingTime() {  //Thinking to move this part to game
+	void setStartingTime() { // Thinking to move this part to game
 
 	}
 
