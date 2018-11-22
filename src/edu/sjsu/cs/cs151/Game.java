@@ -1,25 +1,28 @@
 package edu.sjsu.cs.cs151;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import edu.sjsu.cs.cs151.controller.Controller;
+import edu.sjsu.cs.cs151.model.Difficulty;
 import edu.sjsu.cs.cs151.model.Model;
 import edu.sjsu.cs.cs151.view.View;
 
 /**
  * Creates Model, View, and Controller and starts mainLoop from controller
- * @author msurmenok
- *
  */
 public class Game {
-	View gameView;
-	Controller gameController;
-	Model gameModel;
-	
-	void main(String[] args)
-	{
-		/*
-		 * TODO: 
-		 * 1. Create Model, View.
-		 * 2. Create Controller and pass Model and View instances to GameController as parameters
-		 * 3. Run gameController.mainLoop() method
-		 */
+	private static BlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
+	private static View view;
+	private static Model model;
+
+	void main(String[] args) {
+		this.view = View.init(queue);
+		this.model = new Model(Difficulty.EASY);
+
+		Controller game = new Controller(view, model, queue);
+		game.mainLoop();
+		view.dispose();
+		queue.clear();
 	}
 }
