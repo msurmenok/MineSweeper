@@ -1,5 +1,7 @@
 package edu.sjsu.cs.cs151.controller;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
@@ -17,6 +19,7 @@ public class Controller {
 	BlockingQueue<Message> queue;
 	Model model;
 	View view;
+	private List<Valve> valves = new LinkedList<Valve>();
 
 	/**
 	 * Initialize game controller
