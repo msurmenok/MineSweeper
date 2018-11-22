@@ -6,10 +6,10 @@ import java.util.ArrayList;
  * MineField class is a 2d array that represents a field of mines
  */
 public class MineField {
-	public Cell[][] cells;
-	int height;
-	int width;
-	int numberOfMines;
+	Cell[][] cells;//visibility to package so Model.java can visit
+	private int height;
+	private int width;
+	private int numberOfMines;
 	private int numberOfCells;
 	private boolean[] mineBoolean;
 	private int numberOfOpenedCells;
