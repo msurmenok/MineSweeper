@@ -1,33 +1,36 @@
 package edu.sjsu.cs.cs151.view;
+
 import javax.swing.JFrame;
 
+import edu.sjsu.cs.cs151.Message;
 import edu.sjsu.cs.cs151.model.Model;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Class that will render visual representation of the game
- * @author Park
- * Changes:
- * 1. Create fields JFrame frame and Queue messageQueue; 
- * 2. Instead of show(), update(), and displayTime(), 
- *    create method void change(Model model)
  */
 public class View extends JFrame {
 
-  Queue messageQueue;
-  Model model;
+	BlockingQueue<Message> queue;
+	Model model;
 
-  // constructor
-  public View() {
-    messageQueue = new Queue();
-    initUI();
-  }
- 
-  /**
-   * Send updated model to render in GameView
-   * @param model is updated model of the game
-   */
-  public void change(Model model) {
-  }
+	// constructor
+	private View(BlockingQueue<Message> queue) {
+		this.queue = queue;
+	}
+
+	/**
+	 * Send updated model to render in GameView
+	 * 
+	 * @param model
+	 *            is updated model of the game
+	 */
+	public void change(Model model) {
+	}
+
+	public static View init(BlockingQueue<Message> queue) {
+		return new View(queue);
+	}
 }
