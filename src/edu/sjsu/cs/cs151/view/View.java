@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Class that will render visual representation of the game
  */
-public class View {
+public class View extends JFrame{
 
 	BlockingQueue<Message> queue;
 	Model model;
@@ -39,11 +39,10 @@ public class View {
 		controlPanel.add(newGameButton);
 		controlPanel.add(timer);
 
-		JFrame frame = new JFrame("MineSweeper");
-		frame.add(controlPanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
+		this.add(controlPanel);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.pack();
+		this.setVisible(true);
 	}
 
 	/**
