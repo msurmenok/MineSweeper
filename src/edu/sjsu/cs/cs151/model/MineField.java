@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 /**
  * MineField class is a 2d array that represents a field of mines
- * 
- * @author msurmenok
- *
  */
 public class MineField {
 	public Cell[][] cells;
@@ -20,13 +17,7 @@ public class MineField {
 	/**
 	 * Generate mine field for the first time
 	 */
-	// public MineField()
 	public MineField(int height, int width, int mines) {
-		// int defaultHeight = 10;
-		// int defaultWidth = 20;
-		// int numberOfMines = 5;
-		// generateField(defaultHeight, defaultWidth, numberOfMines);
-
 		numberOfCells = height * width;
 		mineBoolean = new boolean[numberOfCells];
 		generateMineField();
@@ -34,7 +25,6 @@ public class MineField {
 		cells = new Cell[height][width];
 		this.numberOfOpenedCells = 0;
 		// addMouseListener(new GameMouseAdapter());
-
 	}
 
 	/**
@@ -229,15 +219,15 @@ public class MineField {
 		return opened_counter;
 
 	}
-	
+
 	public int getNumOfOpenedCells() {
 		return numberOfOpenedCells;
 	}
-	
+
 	public int getNumOfTotalCells() {
 		return numberOfCells;
 	}
-	
+
 	public int getNumOfMines() {
 		return numberOfMines;
 	}
