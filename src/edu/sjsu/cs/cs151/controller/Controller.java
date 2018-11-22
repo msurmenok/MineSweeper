@@ -35,7 +35,7 @@ public class Controller {
 	/**
 	 * Iterates through messageQueue and updates the model and the view
 	 */
-	void mainLoop() {
+	public void mainLoop() {
 
 	}
 
