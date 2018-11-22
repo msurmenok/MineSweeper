@@ -97,5 +97,19 @@ public class Model {
 			isLose = true;
 		}
 	}
+	/**
+	 * Get current mineField info
+	 * @return mindField information
+	 */
+	public MineField getMineField() {
+		return mineField;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth() {
+		return width;
+	}
+		
 
 }
