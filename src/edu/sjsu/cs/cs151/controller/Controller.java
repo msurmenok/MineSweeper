@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
+import edu.sjsu.cs.cs151.LeftClickMessage;
 import edu.sjsu.cs.cs151.Message;
+import edu.sjsu.cs.cs151.NewGameMessage;
 import edu.sjsu.cs.cs151.model.Cell;
+import edu.sjsu.cs.cs151.model.Difficulty;
+import edu.sjsu.cs.cs151.model.MineField;
 import edu.sjsu.cs.cs151.model.Model;
 import edu.sjsu.cs.cs151.view.View;
 
@@ -34,7 +38,15 @@ public class Controller {
 		this.model = model;
 		this.queue = queue;
 		this.gameInfo = new GameInfo(model);
+		this.valves.add(new NewGameValve());
+		this.valves.add(new LeftClickValve());
 
+	}
+
+	// testing constructor, can be deleted later
+	public Controller(Model model) {
+		this.model = model;
+		this.gameInfo = new GameInfo(model);
 	}
 
 	/**
