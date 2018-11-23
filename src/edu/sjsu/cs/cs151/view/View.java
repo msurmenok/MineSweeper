@@ -6,8 +6,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
+import edu.sjsu.cs.cs151.LeftClickMessage;
 import edu.sjsu.cs.cs151.Message;
 import edu.sjsu.cs.cs151.NewGameMessage;
+import edu.sjsu.cs.cs151.RightClickMessage;
 import edu.sjsu.cs.cs151.controller.GameInfo;
 import edu.sjsu.cs.cs151.model.Model;
 
@@ -25,7 +27,13 @@ public class View extends JFrame {
 	int numberOfColumns;
 	int numberOfRows;
 
-	// constructor
+	/**
+	 * Create instance of View and pass queue that will store messages about user
+	 * actions
+	 * 
+	 * @param queue
+	 *            synchronized queue to store Messages, shared with Controller
+	 */
 	public View(BlockingQueue<Message> queue) {
 		this.queue = queue;
 
@@ -36,6 +44,7 @@ public class View extends JFrame {
 
 		this.numberOfColumns = numberOfColumns;
 		this.numberOfRows = numberOfRows;
+
 		// CONTROLPANEL
 		// Top row that holds mine counter, new game button, and timer
 		JPanel controlPanel = new JPanel();
@@ -86,14 +95,15 @@ public class View extends JFrame {
 		return new View(queue);
 	}
 
-	// Inner class to handle click on NewGameButton
+	/**
+	 * Inner class to handle click on NewGameButton
+	 */
 	private class NewGameListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				System.out.println(e.getSource());
-				System.out.println(e.getModifiers());
 				queue.put(new NewGameMessage());
+				printQueue();
 			} catch (InterruptedException exception) {
 				exception.printStackTrace();
 			}
@@ -102,28 +112,43 @@ public class View extends JFrame {
 
 	}
 
-	// Inner class to handle right-click and left-click on cell button
+	/**
+	 * Inner class to handle right-click and left-click on cell button
+	 *
+	 */
 	private class MineFieldListener implements MouseListener {
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// Get id of clicked number
+			// Get id of a clicked button
+			// There are a lot of information, we need to clean it
+			// to get just the first number
 			String buttonInfo = e.getSource().toString();
 			buttonInfo = buttonInfo.replaceFirst("javax.swing.JButton\\[", "");
 			buttonInfo = buttonInfo.split(",")[0];
 			int buttonNumber = Integer.parseInt(buttonInfo);
-			
-			// Calculate row and column of the button
+
+			// Calculate row (height) and column (width) of the button
 			int row = (int) buttonNumber / numberOfColumns;
 			int column = buttonNumber - (row * numberOfColumns);
 			System.out.println("Button with row: " + row + ", column: " + column);
-			
-			// Check if it was right or left click. Create appropriate Message for message queue
+
+			// Check if it was right or left click. Create appropriate Message
+			// for message queue
 			if (SwingUtilities.isRightMouseButton(e)) {
-				// Create RightClickMessage here
+				try {
+					// Create message for Right-click
+					queue.put(new RightClickMessage(row, column));
+				} catch (InterruptedException exception) {
+					exception.printStackTrace();
+				}
 				System.out.println("Right button clicked");
 			} else {
-				// Create LeftClickMessage here
+				try {
+					// Create message for Left-click
+					queue.put(new LeftClickMessage(row, column));
+				} catch (InterruptedException exception) {
+					exception.printStackTrace();
+				}
 				System.out.println("Left button clicked");
 			}
 		}
@@ -143,7 +168,16 @@ public class View extends JFrame {
 		@Override
 		public void mouseExited(MouseEvent e) {
 		}
+	}
 
+	/**
+	 * Helper function to test the content of message queue
+	 */
+	public void printQueue() {
+		System.out.println("\nPrinting everything in queue!");
+		for (Message message : queue) {
+			System.out.println(message);
+		}
 	}
 
 	public void run() {
