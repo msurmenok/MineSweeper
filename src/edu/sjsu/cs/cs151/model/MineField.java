@@ -172,6 +172,7 @@ public class MineField {
 		// closed cell
 		int adjacentMines = cell.adjacentMines();
 		if (adjacentMines == -1) { // stepped on the mines (lose)
+			cell.setOpen();
 			return false;
 		}
 		if (adjacentMines > 0) {
