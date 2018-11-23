@@ -6,6 +6,7 @@ public class GameInfo {
 	private int[][] gameStatus;
 	private final int CLOSED = -2;
 	private final int FLAGGED = 10;
+	private final int WRONGFLAG = 20;
 	// didn't set values for other scenarios such as mine, empty cell etc/
 	// will follow Inhee's code by setting mine be -1, empty cell be 0 and number be
 	// 1-8(adjacent # of mines)
@@ -50,6 +51,9 @@ public class GameInfo {
 	}
 	public int close() {
 		return CLOSED;
+	}
+	public int wrongFlag() {
+		return WRONGFLAG;
 	}
 	
 	/**
