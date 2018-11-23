@@ -48,6 +48,9 @@ public class GameInfo {
 	public int flag() {
 		return FLAGGED;
 	}
+	public int close() {
+		return CLOSED;
+	}
 	
 	/**
 	 * Getter for gameStatus 
