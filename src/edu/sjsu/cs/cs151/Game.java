@@ -21,7 +21,12 @@ public class Game {
 		model = new Model(Difficulty.EASY);
 
 		Controller game = new Controller(view, model, queue);
-		game.mainLoop();
+		try {
+			game.mainLoop();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//view.dispose();
 		queue.clear();
 	}
