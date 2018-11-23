@@ -27,14 +27,13 @@ public class View extends JFrame {
 
 		// Replace with information from GameInfo
 		int numberOfMines = 4;
-		int height = 8;
-		int width = 8;
+		int height = 18;
+		int width = 18;
 
+		// CONTROLPANEL
 		// Top row that holds mine counter, new game button, and timer
 		JPanel controlPanel = new JPanel();
-		// Specify that elements should be from left to right
-		BoxLayout boxLayout = new BoxLayout(controlPanel, BoxLayout.X_AXIS);
-		controlPanel.setLayout(boxLayout);
+
 		// Create elements for control panel
 		JLabel mineCounter = new JLabel("" + numberOfMines);
 		JButton newGameButton = new JButton("New Game");
@@ -45,7 +44,21 @@ public class View extends JFrame {
 		controlPanel.add(newGameButton);
 		controlPanel.add(timer);
 
-		this.add(controlPanel);
+		// FIELDPANEL
+		// Panel for a mine field
+		JPanel fieldPanel = new JPanel();
+		fieldPanel.setSize(200, 500);
+		fieldPanel.setLayout(new GridLayout(height, width));
+		for (int i = 0; i < height * width; i++) {
+			JButton cell = new JButton();
+			cell.setPreferredSize(new Dimension(30, 30));
+			// add mouseListener here
+			fieldPanel.add(cell);
+		}
+
+		// this.setSize(200, 600);
+		this.add(controlPanel, BorderLayout.CENTER);
+		this.add(fieldPanel, BorderLayout.SOUTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
@@ -64,12 +77,15 @@ public class View extends JFrame {
 		return new View(queue);
 	}
 
+	// Inner class to handle right-click and left-click on cell button
+
 	// Inner class to handle click on NewGameButton
 	private class NewGameListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				System.out.println(e.getSource());
+				System.out.println(e.getModifiers());
 				queue.put(new NewGameMessage());
 			} catch (InterruptedException exception) {
 				exception.printStackTrace();
