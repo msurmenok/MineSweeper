@@ -18,27 +18,18 @@ public class MineField {
 	 * Generate mine field for the first time
 	 */
 	public MineField(int height, int width, int mines) {
+		this.height = height;
+		this.width = width;
 		numberOfCells = height * width;
 		mineBoolean = new boolean[numberOfCells];
 		this.numberOfMines = mines;
-		generateMineField();
-		this.calcAdjacentMines();
+		//generateMineField();
 		cells = new Cell[height][width];
+		this.calcAdjacentMines();
 		this.numberOfOpenedCells = 0;
 		// addMouseListener(new GameMouseAdapter());
 	}
 
-	/**
-	 * Create mine field and put mines in random cells
-	 * 
-	 * @param height
-	 *            number of rows
-	 * @param width
-	 *            number of columns
-	 * @param numberOfMines
-	 *            number of mines public void generateField(int height, int width,
-	 *            int numberOfMines) { cells = new Cell[height][width]; }
-	 */
 
 	/**
 	 * Check out how many mines near the specific cell
@@ -56,7 +47,7 @@ public class MineField {
 			for (int j = x - 1; j < x + 2; j++) {
 				// Check if index is out of bounds.
 				// If it is outside of the array, skip this iteration.
-				if (x == -1 || y == -1 || x == cells[i].length || y == cells.length) {
+				if (x == -1 || y == -1 || x == cells[0].length || y == cells.length) {
 					continue;
 				}
 				// Increase counter if the specified cell is mine.
