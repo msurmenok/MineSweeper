@@ -22,7 +22,7 @@ public class Game {
 
 		Controller game = new Controller(view, model, queue);
 		game.mainLoop();
-		view.dispose();
+		//view.dispose();
 		queue.clear();
 	}
 }
