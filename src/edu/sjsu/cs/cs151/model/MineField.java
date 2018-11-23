@@ -20,6 +20,7 @@ public class MineField {
 	public MineField(int height, int width, int mines) {
 		numberOfCells = height * width;
 		mineBoolean = new boolean[numberOfCells];
+		this.numberOfMines = mines;
 		generateMineField();
 		this.calcAdjacentMines();
 		cells = new Cell[height][width];
@@ -230,6 +231,11 @@ public class MineField {
 
 	public int getNumOfMines() {
 		return numberOfMines;
+	}
+	
+	//for testing only. Can delete later
+	public boolean[] getMineBoolean() {
+		return mineBoolean;
 	}
 
 }
