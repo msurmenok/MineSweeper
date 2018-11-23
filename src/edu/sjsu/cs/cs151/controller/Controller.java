@@ -41,6 +41,22 @@ public class Controller {
 	 * Iterates through messageQueue and updates the model and the view
 	 */
 	public void mainLoop() {
+	public void mainLoop() throws Exception {
+		ValveResponse response = ValveResponse.EXECUTED;
+		Message message = null;
+		while (response != ValveResponse.FINISH) {
+			try {
+				message = (Message) queue.take();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			for (Valve valve : valves) {
+				response = valve.execute(message);
+				if (response != ValveResponse.MISS)
+					break;
+			}
+		}
 
 	}
 
