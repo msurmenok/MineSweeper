@@ -102,11 +102,13 @@ public class Controller {
 	void endGame() {
 
 	}
-/**
- * NewGameValve handles NewGameMessage
- * @author jing
- *
- */
+
+	/**
+	 * NewGameValve handles NewGameMessage
+	 * 
+	 * @author jing
+	 *
+	 */
 	private class NewGameValve implements Valve {
 
 		@Override
@@ -118,26 +120,27 @@ public class Controller {
 			model = model.restartGame();
 			gameInfo = new GameInfo(model);
 			view.change(gameInfo);
-			gameInfo.print();//for testing purpose
+			gameInfo.print();// for testing purpose
 			return ValveResponse.EXECUTED;
 
 		}
 
 	}
-/*
- * LeftClickValve handles LeftClickMessage
- */
-	private class LeftClickValve implements Valve{
+
+	/*
+	 * LeftClickValve handles LeftClickMessage
+	 */
+	private class LeftClickValve implements Valve {
 		@Override
 		public ValveResponse execute(Message message) {
 			if (message.getClass() != LeftClickMessage.class) {
 				return ValveResponse.MISS;
 			}
 			LeftClickMessage leftClick = (LeftClickMessage) message;
-			model.openCell(leftClick.getHeight(), leftClick.getWidth()); //model open cell
-			updateGameInfo(); 
-			gameInfo.print();//for testing purpose
-			view.change(gameInfo); 
+			model.openCell(leftClick.getHeight(), leftClick.getWidth()); // model open cell
+			updateGameInfo();
+			gameInfo.print();// for testing purpose
+			view.change(gameInfo);
 			return ValveResponse.EXECUTED;
 		}
 	}
