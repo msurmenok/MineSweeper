@@ -38,8 +38,8 @@ public class Model {
 	/**
 	 * Reset state. Reinitialize field with mines
 	 */
-	public void restartGame() {
-
+	public Model restartGame() {
+		 return new Model(Difficulty.EASY);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class Model {
 	 *            y coordinate of clicked cell
 	 */
 	public void openCell(int h, int w) {
-		gameContinue = this.mineField.open(h, w);
+		gameContinue = this.mineField.open(h, w);		
 	}
 
 	/**
