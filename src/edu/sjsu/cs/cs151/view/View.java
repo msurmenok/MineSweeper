@@ -22,6 +22,10 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class View extends JFrame {
 
+	JPanel controlPanel;
+	JPanel fieldPanel;
+	JLabel mineCounter;
+
 	BlockingQueue<Message> queue;
 	Model model;
 	int numberOfColumns;
@@ -47,10 +51,10 @@ public class View extends JFrame {
 
 		// CONTROLPANEL
 		// Top row that holds mine counter, new game button, and timer
-		JPanel controlPanel = new JPanel();
+		controlPanel = new JPanel();
 
 		// Create elements for control panel
-		JLabel mineCounter = new JLabel("" + numberOfMines);
+		mineCounter = new JLabel("" + numberOfMines);
 		JButton newGameButton = new JButton("New Game");
 		// Add listener to button
 		newGameButton.addActionListener(new NewGameListener());
@@ -61,7 +65,7 @@ public class View extends JFrame {
 
 		// FIELDPANEL
 		// Panel for a mine field
-		JPanel fieldPanel = new JPanel();
+		fieldPanel = new JPanel();
 		fieldPanel.setSize(200, 500);
 		fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		fieldPanel.setLayout(new GridLayout(numberOfRows, numberOfColumns));
@@ -89,8 +93,18 @@ public class View extends JFrame {
 	 *            is updated model of the game
 	 */
 	public void change(GameInfo gameInfo) {
+		// TODO: Iterate over integer representation of mine field in gameInfo.
+		// Populate JPanel fieldPanel with buttons.
+		// Assign integer from 0 to N (where N = width*height) number to each button.
+		// Update number of remaining mines in JLabel mineCounter.
 	}
 
+	/**
+	 * Initialize new View with specified queue
+	 * 
+	 * @param queue
+	 * @return
+	 */
 	public static View init(BlockingQueue<Message> queue) {
 		return new View(queue);
 	}
