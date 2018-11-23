@@ -81,22 +81,43 @@ public class Controller {
 		Cell[][] currentCells = model.getMineField().getCell();// get the cells info from model
 		int h = model.getHeight();
 		int w = model.getWidth();
-		for (int i = 0; i < h; i++) {
-			for (int j = 0; j < w; j++) {
-				if(!currentCells[i][j].isOpened()) {//closed
-					if(!(currentCells[i][j]).isFlagged()) {
-						gameInfo.gameInfoUpdate(i, j, gameInfo.close());
+		if (model.getGameStatus()) {
+			for (int i = 0; i < h; i++) {
+				for (int j = 0; j < w; j++) {
+					if(!currentCells[i][j].isOpened()) {//closed
+						if (!(currentCells[i][j]).isFlagged()) {
+							gameInfo.gameInfoUpdate(i, j, gameInfo.close());
+						} 
+						else {
+							gameInfo.gameInfoUpdate(i, j, gameInfo.flag());
+						}
 					}
 					else {
-						gameInfo.gameInfoUpdate(i, j, gameInfo.flag());
-					}
-				} else { //open
 						int currCell = (currentCells[i][j]).adjacentMines();
-						gameInfo.gameInfoUpdate(i, j, currCell);
+						gameInfo.gameInfoUpdate(i, j, currCell);	
 					}
 				}
+			}
+		}
+		else {
+			showAllMines(gameInfo);
+		}
+}
+	//helper method to show all mines
+	private void showAllMines(GameInfo gameInfo){
+		Cell[][] currentCells = model.getMineField().getCell();// get the cells info from model
+		int h = model.getHeight();
+		int w = model.getWidth();
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				if(currentCells[i][j].adjacentMines() == -1) {
+					gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines() );
+					gameInfo.print();
+				}
+			}
 		}
 	}
+	
 
 	/**
 	 * Method to stop a game. Stops timer.
