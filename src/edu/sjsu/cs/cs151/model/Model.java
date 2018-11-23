@@ -15,7 +15,7 @@ public class Model {
 	private int numberOfMines;
 
 	public boolean gameContinue;
-	public boolean isWin;
+	//public boolean isWin;
 	public boolean isLose;
 
 	/**
@@ -32,7 +32,7 @@ public class Model {
 		this.mineCounter = new MineCounter(this.numberOfMines);
 		gameContinue = true;
 		isLose = false;
-		isWin = false;
+		//isWin = false;
 	}
 
 	/**
@@ -83,13 +83,14 @@ public class Model {
 		return gameContinue;
 	}
 
-	public void setWin() {
+	public boolean isWin() {
 		if (gameContinue) {
 			if (this.mineField.getNumOfTotalCells() - this.mineField.getNumOfOpenedCells() == this.mineField
 					.getNumOfMines()) {
-				isWin = true;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public void setLose() {
@@ -110,6 +111,12 @@ public class Model {
 	public int getWidth() {
 		return width;
 	}
-		
+	public void gameOver() {
+		System.out.println("Game over! Please start a new game!");
+	}
+	public void gameWin() {
+		System.out.println("Bravo! You won!");
+	}
+	
 
 }
