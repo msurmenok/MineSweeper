@@ -109,8 +109,15 @@ public class Controller {
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
 				if (currentCells[i][j].adjacentMines() == -1) {
-					gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines());
+					if(currentCells[i][j].isFlagged()) {
+						gameInfo.gameInfoUpdate(i, j, gameInfo.wrongFlag());
+					}
+					else {
+						gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines());
+					}
 				}
+					
+	
 			}
 		}
 	}
