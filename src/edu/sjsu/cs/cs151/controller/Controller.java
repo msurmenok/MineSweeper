@@ -40,7 +40,6 @@ public class Controller {
 	/**
 	 * Iterates through messageQueue and updates the model and the view
 	 */
-	public void mainLoop() {
 	public void mainLoop() throws Exception {
 		ValveResponse response = ValveResponse.EXECUTED;
 		Message message = null;
