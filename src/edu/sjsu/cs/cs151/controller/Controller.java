@@ -81,11 +81,16 @@ public class Controller {
 		int w = model.getWidth();
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				if (currentCells[i][j].isFlagged()) { // if the cells has been flagged
+				if ((currentCells[i][j]).isFlagged()) { // if the cells has been flagged
 					gameInfo.gameInfoUpdate(i, j, gameInfo.flag()); // change gameinfo Matrix
 				} else {
-					int currCell = currentCells[i][j].adjacentMines();
-					gameInfo.gameInfoUpdate(i, j, currCell);
+					if (currentCells[i][j].isOpened()) {
+						int currCell = (currentCells[i][j]).adjacentMines();
+						gameInfo.gameInfoUpdate(i, j, currCell);
+					} else {
+						continue;
+					}
+
 				}
 			}
 		}
