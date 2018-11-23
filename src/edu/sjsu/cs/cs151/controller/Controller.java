@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import edu.sjsu.cs.cs151.LeftClickMessage;
 import edu.sjsu.cs.cs151.Message;
 import edu.sjsu.cs.cs151.NewGameMessage;
+import edu.sjsu.cs.cs151.RightClickMessage;
 import edu.sjsu.cs.cs151.model.Cell;
 import edu.sjsu.cs.cs151.model.Difficulty;
 import edu.sjsu.cs.cs151.model.MineField;
@@ -40,6 +41,7 @@ public class Controller {
 		this.gameInfo = new GameInfo(model);
 		this.valves.add(new NewGameValve());
 		this.valves.add(new LeftClickValve());
+		this.valves.add(new RightClickValve());
 
 	}
 
@@ -81,18 +83,18 @@ public class Controller {
 		int w = model.getWidth();
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				if ((currentCells[i][j]).isFlagged()) { // if the cells has been flagged
-					gameInfo.gameInfoUpdate(i, j, gameInfo.flag()); // change gameinfo Matrix
-				} else {
-					if (currentCells[i][j].isOpened()) {
+				if(!currentCells[i][j].isOpened()) {//closed
+					if(!(currentCells[i][j]).isFlagged()) {
+						gameInfo.gameInfoUpdate(i, j, gameInfo.close());
+					}
+					else {
+						gameInfo.gameInfoUpdate(i, j, gameInfo.flag());
+					}
+				} else { //open
 						int currCell = (currentCells[i][j]).adjacentMines();
 						gameInfo.gameInfoUpdate(i, j, currCell);
-					} else {
-						continue;
 					}
-
 				}
-			}
 		}
 	}
 
