@@ -84,40 +84,36 @@ public class Controller {
 		if (model.getGameStatus()) {
 			for (int i = 0; i < h; i++) {
 				for (int j = 0; j < w; j++) {
-					if(!currentCells[i][j].isOpened()) {//closed
+					if (!currentCells[i][j].isOpened()) {// closed
 						if (!(currentCells[i][j]).isFlagged()) {
 							gameInfo.gameInfoUpdate(i, j, gameInfo.close());
-						} 
-						else {
+						} else {
 							gameInfo.gameInfoUpdate(i, j, gameInfo.flag());
 						}
-					}
-					else {
+					} else {
 						int currCell = (currentCells[i][j]).adjacentMines();
-						gameInfo.gameInfoUpdate(i, j, currCell);	
+						gameInfo.gameInfoUpdate(i, j, currCell);
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			showAllMines(gameInfo);
 		}
-}
-	//helper method to show all mines
-	private void showAllMines(GameInfo gameInfo){
+	}
+
+	// helper method to show all mines
+	private void showAllMines(GameInfo gameInfo) {
 		Cell[][] currentCells = model.getMineField().getCell();// get the cells info from model
 		int h = model.getHeight();
 		int w = model.getWidth();
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				if(currentCells[i][j].adjacentMines() == -1) {
-					gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines() );
-					gameInfo.print();
+				if (currentCells[i][j].adjacentMines() == -1) {
+					gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines());
 				}
 			}
 		}
 	}
-	
 
 	/**
 	 * Method to stop a game. Stops timer.
@@ -161,13 +157,29 @@ public class Controller {
 			}
 			LeftClickMessage leftClick = (LeftClickMessage) message;
 			model.openCell(leftClick.getHeight(), leftClick.getWidth()); // model open cell
-			updateGameInfo();
-			gameInfo.print();// for testing purpose
-			view.change(gameInfo);
+			if (model.getGameStatus()) {
+				if (!model.isWin()) {
+					updateGameInfo();
+					gameInfo.print();// for testing purpose
+					view.change(gameInfo);
+				} else {
+					model.gameWin();
+					view.change(gameInfo);
+				}
+
+			} else {
+				updateGameInfo();
+				gameInfo.print();// for testing purpose
+				model.gameOver();
+				view.change(gameInfo);
+
+			}
+
 			return ValveResponse.EXECUTED;
 		}
 	}
-	private class RightClickValve implements Valve{
+
+	private class RightClickValve implements Valve {
 		@Override
 		public ValveResponse execute(Message message) {
 			if (message.getClass() != RightClickMessage.class) {
