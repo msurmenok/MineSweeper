@@ -144,5 +144,19 @@ public class Controller {
 			return ValveResponse.EXECUTED;
 		}
 	}
+	private class RightClickValve implements Valve{
+		@Override
+		public ValveResponse execute(Message message) {
+			if (message.getClass() != RightClickMessage.class) {
+				return ValveResponse.MISS;
+			}
+			RightClickMessage rightClick = (RightClickMessage) message;
+			model.toggleCellFlag(rightClick.getHeight(), rightClick.getWidth());
+			updateGameInfo();
+			gameInfo.print();// for testing purpose
+			view.change(gameInfo);
+			return ValveResponse.EXECUTED;
+		}
+	}
 
 }
