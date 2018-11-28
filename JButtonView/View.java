@@ -2,6 +2,7 @@ package edu.sjsu.cs.cs151.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -101,6 +102,7 @@ public class View extends JFrame {
 	 * @param model
 	 *            is updated model of the game
 	 */
+
 	public void change(GameInfo gameInfo) {
 		// TODO: Iterate over integer representation of mine field in gameInfo
 		// gameInfo.getGameStatus();
@@ -108,33 +110,43 @@ public class View extends JFrame {
 		// Assign integer from 0 to N (where N = width*height) number to each button.
 		// height = row, width = column => buttonNumber = width + (height * 8)
 		// Update number of remaining mines in JLabel mineCounter.
-    int buttonNumber = 0;
-    for (JButton jb: CellButtonList) {
-	    int row = (int) buttonNumber / numberOfColumns;
-	    int column = buttonNumber - (row * numberOfColumns);
 
-      int adjacentMines = gameInfo.getGameStatus()[row][column];
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
 
-      if (adjacentMines == -1) { // mine
-        jb.setText("M");
-      }
-      else if (adjacentMines == 10) { // flag
-        jb.setText("?");
-      }
-      else if (adjacentMines > 0) { // number cell
-        jb.setText(adjacentMines + "");
-      }
-      else if (adjacentMines == 0) { // empty cell
-        jb.setText("0");
-      }
-      else if (adjacentMines == 20) {
-        jb.setText("X");
-      }
-      else {
-        ;
-      }
-      buttonNumber++;
-    } // EO-for
+      int buttonNumber = 0;
+      ImageIcon icon;
+
+      for (JButton jb: CellButtonList) {                                         
+	      int row = (int) buttonNumber / numberOfColumns;
+	      int column = buttonNumber - (row * numberOfColumns);
+                                                                                 
+        int adjacentMines = gameInfo.getGameStatus()[row][column];
+                                                                                 
+        if (adjacentMines == -1) { // mine
+          jb.setText("M");
+        }
+        else if (adjacentMines == 10) { // flag
+          //icon = new ImageIcon(getClass().getResource("/resource/img/f.png"));
+          //jb.setIcon(icon);
+          jb.setText("?");
+        }
+        else if (adjacentMines > 0) { // number cell
+          jb.setText(adjacentMines + "");
+        }
+        else if (adjacentMines == 0) { // empty cell
+          jb.setText("0");
+        }
+        else if (adjacentMines == 20) {
+          jb.setText("X");
+        }
+        //else {
+        //  ;
+        //}
+        buttonNumber++;
+      } // EO-for
+      } // EO-run()
+    }); // EO-invokeLater
   }
 
 	/**
@@ -190,6 +202,7 @@ public class View extends JFrame {
 				try {
 					// Create message for Right-click
 					queue.put(new RightClickMessage(row, column));
+          replaceFlag(e); // toggle view for flag
 				} catch (InterruptedException exception) {
 					exception.printStackTrace();
 				}
@@ -235,4 +248,8 @@ public class View extends JFrame {
 	public void run() {
 	}
 
+  public void replaceFlag(MouseEvent e) {
+    JButton jb = (JButton) e.getSource();
+    jb.setText("");
+  }
 }
