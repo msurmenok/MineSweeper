@@ -131,7 +131,7 @@ public class View extends JFrame {
           //jb.setIcon(icon);
           jb.setText("?");
         }
-        else if (adjacentMines > 0) { // number cell
+        else if (adjacentMines > 0 && adjacentMines < 10) { // number cell
           jb.setText(adjacentMines + "");
         }
         else if (adjacentMines == 0) { // empty cell
@@ -202,7 +202,7 @@ public class View extends JFrame {
 				try {
 					// Create message for Right-click
 					queue.put(new RightClickMessage(row, column));
-          replaceFlag(e); // toggle view for flag
+          replaceFlag(e);
 				} catch (InterruptedException exception) {
 					exception.printStackTrace();
 				}
