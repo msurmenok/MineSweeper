@@ -93,9 +93,11 @@ public class View extends JFrame {
 	 *            is updated model of the game
 	 */
 	public void change(GameInfo gameInfo) {
-		// TODO: Iterate over integer representation of mine field in gameInfo.
+		// TODO: Iterate over integer representation of mine field in gameInfo
+		// gameInfo.getGameStatus();
 		// Populate JPanel fieldPanel with buttons.
 		// Assign integer from 0 to N (where N = width*height) number to each button.
+		// height = row, width = column => buttonNumber = width + (height * 8)
 		// Update number of remaining mines in JLabel mineCounter.
 	}
 
