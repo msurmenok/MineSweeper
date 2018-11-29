@@ -6,6 +6,7 @@ import java.util.Date;
  * Model that contains state of all objects of the game
  */
 public class Model {
+	
 	private MineField mineField;
 	// private Date staringTime;
 	private MineCounter mineCounter;
@@ -23,9 +24,19 @@ public class Model {
 	 */
 	public Model(Difficulty difficulty) {
 		if (difficulty == Difficulty.EASY) {
-			this.height = 8;
-			this.width = 8;
-			this.numberOfMines = 4;
+			this.height = DifficultyLevel.EASY;
+			this.width = DifficultyLevel.EASY;
+			this.numberOfMines = DifficultyLevel.EASY_MINES;
+		}
+		else if(difficulty == Difficulty.MEDIUM) {
+			this.height = DifficultyLevel.MEDIUM;
+			this.width = DifficultyLevel.MEDIUM;
+			this.numberOfMines = DifficultyLevel.MEDIUM_MINES;
+		}
+		else if(difficulty == Difficulty.HARD) {
+			this.height = DifficultyLevel.HARD;
+			this.width = DifficultyLevel.HARD;
+			this.numberOfMines = DifficultyLevel.HARD_MINES;
 		}
 
 		this.mineField = new MineField(height, width, numberOfMines);
@@ -116,6 +127,9 @@ public class Model {
 	}
 	public void gameWin() {
 		System.out.println("Bravo! You won!");
+	}
+	public int getNumOfMines() {
+		return this.numberOfMines;
 	}
 	
 
