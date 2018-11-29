@@ -3,6 +3,8 @@ package edu.sjsu.cs.cs151.view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
+import javax.swing.Timer; 
+import java.text.SimpleDateFormat;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -36,6 +38,7 @@ public class View extends JFrame {
 	int numberOfRows;
 
   List<JButton> CellButtonList;
+  long initTime;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -59,15 +62,32 @@ public class View extends JFrame {
 		// Top row that holds mine counter, new game button, and timer
 		controlPanel = new JPanel();
 
+
 		// Create elements for control panel
 		mineCounter = new JLabel("" + numberOfMines);
 		JButton newGameButton = new JButton("New Game");
 		// Add listener to button
 		newGameButton.addActionListener(new NewGameListener());
+
 		JLabel timer = new JLabel("00:00");
+    // Game Timer
+    initTime = -1;
+    // seed 1sec = 1000 millisec
+    Timer gameTimer = new Timer(1000, new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        if (initTime < 0)
+          initTime = System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        long timeElapsed = now - initTime;
+        timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
+        } // EO-actionPerformed
+    }); // EO-Timer
+    gameTimer.start();
+
 		controlPanel.add(mineCounter);
 		controlPanel.add(newGameButton);
 		controlPanel.add(timer);
+
 
 		// FIELDPANEL
 		// Panel for a mine field
@@ -252,5 +272,6 @@ public class View extends JFrame {
     JButton jb = (JButton) e.getSource();
     jb.setText("");
   }
+
 
 }
