@@ -140,9 +140,9 @@ public class View extends JFrame {
         else if (adjacentMines == 20) {
           jb.setText("X");
         }
-        //else {
-        //  ;
-        //}
+        else { // closed
+          jb.setText("");
+        }
         buttonNumber++;
       } // EO-for
       } // EO-run()
@@ -252,4 +252,5 @@ public class View extends JFrame {
     JButton jb = (JButton) e.getSource();
     jb.setText("");
   }
+
 }
