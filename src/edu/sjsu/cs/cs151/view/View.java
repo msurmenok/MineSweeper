@@ -73,16 +73,21 @@ public class View extends JFrame {
 		// Game Timer
 		initTime = -1;
 		// speed 1sec = 1000 millisec
-		Timer gameTimer = new Timer(1000, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (initTime < 0)
-					initTime = System.currentTimeMillis();
-				long now = System.currentTimeMillis();
-				long timeElapsed = now - initTime;
-				timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
-			} // EO-actionPerformed
-		}); // EO-Timer
-		gameTimer.start(); // should stop when game is over
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+
+				Timer gameTimer = new Timer(1000, new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (initTime < 0)
+							initTime = System.currentTimeMillis();
+						long now = System.currentTimeMillis();
+						long timeElapsed = now - initTime;
+						timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
+					} // EO-actionPerformed
+				}); // EO-Timer
+				gameTimer.start(); // should stop when game is over
+				} // EO-run()
+		}); // EO-invokeLater
 
 		controlPanel.add(mineCounter);
 		controlPanel.add(newGameButton);
@@ -130,6 +135,7 @@ public class View extends JFrame {
 		// Assign integer from 0 to N (where N = width*height) number to each button.
 		// height = row, width = column => buttonNumber = width + (height * 8)
 		// Update number of remaining mines in JLabel mineCounter.
+    //
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
