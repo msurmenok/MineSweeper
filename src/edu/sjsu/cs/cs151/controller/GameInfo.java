@@ -7,6 +7,9 @@ public class GameInfo {
 	private final int CLOSED = -2;
 	private final int FLAGGED = 10;
 	private final int WRONGFLAG = 20;
+	private int h;
+	private int w;
+	private int numOfMines;
 	// didn't set values for other scenarios such as mine, empty cell etc/
 	// will follow Inhee's code by setting mine be -1, empty cell be 0 and number be
 	// 1-8(adjacent # of mines)
@@ -21,8 +24,9 @@ public class GameInfo {
 	 *            width of the mineField
 	 */
 	public GameInfo(Model model) {
-		int h = model.getHeight();
-		int w = model.getWidth();
+		h = model.getHeight();
+		w = model.getWidth();
+		numOfMines = model.getNumOfMines();
 		gameStatus = new int[h][w];
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
@@ -75,6 +79,16 @@ public class GameInfo {
 			}
 			System.out.print("]\n");
 		}
+	}
+	
+	public int getHeight() {
+		return this.h;
+	}
+	public int getWidth() {
+		return this.w;
+	}
+	public int getNumOfMines() {
+		return this.numOfMines;
 	}
 
 }
