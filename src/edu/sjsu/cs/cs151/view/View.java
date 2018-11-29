@@ -2,6 +2,9 @@ package edu.sjsu.cs.cs151.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
+import javax.swing.Timer; 
+import java.text.SimpleDateFormat;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -17,6 +20,9 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Class that will render visual representation of the game
  */
@@ -30,6 +36,9 @@ public class View extends JFrame {
 	Model model;
 	int numberOfColumns;
 	int numberOfRows;
+
+  List<JButton> CellButtonList;
+  long initTime;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -53,15 +62,32 @@ public class View extends JFrame {
 		// Top row that holds mine counter, new game button, and timer
 		controlPanel = new JPanel();
 
+
 		// Create elements for control panel
 		mineCounter = new JLabel("" + numberOfMines);
 		JButton newGameButton = new JButton("New Game");
 		// Add listener to button
 		newGameButton.addActionListener(new NewGameListener());
+
 		JLabel timer = new JLabel("00:00");
+    // Game Timer
+    initTime = -1;
+    // seed 1sec = 1000 millisec
+    Timer gameTimer = new Timer(1000, new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        if (initTime < 0)
+          initTime = System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        long timeElapsed = now - initTime;
+        timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
+        } // EO-actionPerformed
+    }); // EO-Timer
+    gameTimer.start();
+
 		controlPanel.add(mineCounter);
 		controlPanel.add(newGameButton);
 		controlPanel.add(timer);
+
 
 		// FIELDPANEL
 		// Panel for a mine field
@@ -69,6 +95,9 @@ public class View extends JFrame {
 		fieldPanel.setSize(200, 500);
 		fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		fieldPanel.setLayout(new GridLayout(numberOfRows, numberOfColumns));
+
+    CellButtonList = new ArrayList<>();
+
 		for (int i = 0; i < numberOfRows * numberOfColumns; i++) {
 			JButton cell = new JButton();
 
@@ -76,6 +105,7 @@ public class View extends JFrame {
 			cell.setPreferredSize(new Dimension(30, 30));
 			cell.addMouseListener(new MineFieldListener());
 			fieldPanel.add(cell);
+      CellButtonList.add(cell);
 		}
 
 		// this.setSize(200, 600);
@@ -92,6 +122,7 @@ public class View extends JFrame {
 	 * @param model
 	 *            is updated model of the game
 	 */
+
 	public void change(GameInfo gameInfo) {
 		// TODO: Iterate over integer representation of mine field in gameInfo
 		// gameInfo.getGameStatus();
@@ -99,7 +130,44 @@ public class View extends JFrame {
 		// Assign integer from 0 to N (where N = width*height) number to each button.
 		// height = row, width = column => buttonNumber = width + (height * 8)
 		// Update number of remaining mines in JLabel mineCounter.
-	}
+
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+
+      int buttonNumber = 0;
+      ImageIcon icon;
+
+      for (JButton jb: CellButtonList) {                                         
+	      int row = (int) buttonNumber / numberOfColumns;
+	      int column = buttonNumber - (row * numberOfColumns);
+                                                                                 
+        int adjacentMines = gameInfo.getGameStatus()[row][column];
+                                                                                 
+        if (adjacentMines == -1) { // mine
+          jb.setText("M");
+        }
+        else if (adjacentMines == 10) { // flag
+          //icon = new ImageIcon(getClass().getResource("/resource/img/f.png"));
+          //jb.setIcon(icon);
+          jb.setText("?");
+        }
+        else if (adjacentMines > 0 && adjacentMines < 10) { // number cell
+          jb.setText(adjacentMines + "");
+        }
+        else if (adjacentMines == 0) { // empty cell
+          jb.setText("0");
+        }
+        else if (adjacentMines == 20) {
+          jb.setText("X");
+        }
+        else { // closed
+          jb.setText("");
+        }
+        buttonNumber++;
+      } // EO-for
+      } // EO-run()
+    }); // EO-invokeLater
+  }
 
 	/**
 	 * Initialize new View with specified queue
@@ -154,6 +222,7 @@ public class View extends JFrame {
 				try {
 					// Create message for Right-click
 					queue.put(new RightClickMessage(row, column));
+          replaceFlag(e);
 				} catch (InterruptedException exception) {
 					exception.printStackTrace();
 				}
@@ -198,5 +267,11 @@ public class View extends JFrame {
 
 	public void run() {
 	}
+
+  public void replaceFlag(MouseEvent e) {
+    JButton jb = (JButton) e.getSource();
+    jb.setText("");
+  }
+ //
 
 }
