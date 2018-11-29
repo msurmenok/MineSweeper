@@ -75,18 +75,17 @@ public class View extends JFrame {
 		// speed 1sec = 1000 millisec
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-
 				Timer gameTimer = new Timer(1000, new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (initTime < 0)
-							initTime = System.currentTimeMillis();
-						long now = System.currentTimeMillis();
-						long timeElapsed = now - initTime;
-						timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
-					} // EO-actionPerformed
-				}); // EO-Timer
+				public void actionPerformed(ActionEvent e) {
+					if (initTime < 0)
+						initTime = System.currentTimeMillis();
+					long now = System.currentTimeMillis();
+					long timeElapsed = now - initTime;
+					timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
+				} // EO-actionPerformed
+        }); // EO-Timer
 				gameTimer.start(); // should stop when game is over
-				} // EO-run()
+			} // EO-run()
 		}); // EO-invokeLater
 
 		controlPanel.add(mineCounter);
