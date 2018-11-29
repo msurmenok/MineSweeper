@@ -164,21 +164,22 @@ public class Controller {
 			}
 			LeftClickMessage leftClick = (LeftClickMessage) message;
 			model.openCell(leftClick.getHeight(), leftClick.getWidth()); // model open cell
+			updateGameInfo();
 			if (model.getGameStatus()) {
 				if (!model.isWin()) {
-					updateGameInfo();
 					gameInfo.print();// for testing purpose
 					view.change(gameInfo);
 				} else {
+					gameInfo.print();
 					model.gameWin();
 					view.change(gameInfo);
 				}
 
 			} else {
-				updateGameInfo();
 				gameInfo.print();// for testing purpose
-				model.gameOver();
 				view.change(gameInfo);
+				model.gameOver();
+				
 
 			}
 
