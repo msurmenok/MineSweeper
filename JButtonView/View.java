@@ -272,6 +272,6 @@ public class View extends JFrame {
     JButton jb = (JButton) e.getSource();
     jb.setText("");
   }
-
+ //
 
 }
