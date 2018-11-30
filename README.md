@@ -2,8 +2,7 @@
 Project for CS151 class
 
   
-Check-list/to-do-list
-=====================
+#Check-list/to-do-list
 [ ]1. Use final static int FRAME_WIDTH = 200 instead of number;
 
 [ ]2. Create app directory: edu.sjsu.cs.cs151.*app*
@@ -30,3 +29,4 @@ Check-list/to-do-list
 
 [ ]13. MineCounter update in JFrame
                                       
+[ ]14. Unit test
