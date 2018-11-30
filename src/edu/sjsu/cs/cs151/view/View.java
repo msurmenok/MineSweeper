@@ -147,18 +147,37 @@ public class View extends JFrame {
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
 
-					if (adjacentMines == -1) // mine
+					// TODO: Block the button that were opened and flagged
+					// setBackground and setForeground do not work
+					if (adjacentMines == GameInfo.MINE) // mine
+					{
+						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
-					else if (adjacentMines == 10) // flag
+					} else if (adjacentMines == GameInfo.FLAGGED) // flag
+					{
 						jb.setText("?");
-					else if (adjacentMines > 0 && adjacentMines < 10)// number cell
+						// jb.setForeground(Color.RED);
+						jb.setEnabled(false);
+					} else if (adjacentMines > 0 && adjacentMines < 10)// number cell
+					{
 						jb.setText(adjacentMines + "");
-					else if (adjacentMines == 0) // empty cell
+						// jb.setBackground(Color.DARK_GRAY);
+						jb.setEnabled(false);
+
+					} else if (adjacentMines == GameInfo.EMPTY) // empty cell
+					{
+						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("0");
-					else if (adjacentMines == 20) // wrong flag
+						jb.setEnabled(false);
+					} else if (adjacentMines == GameInfo.WRONGFLAG) // wrong flag
+					{
 						jb.setText("X");
-					else // closed
+						jb.setEnabled(false);
+					} else // closed
+					{
+						jb.setEnabled(true);
 						jb.setText("");
+					}
 
 					buttonNumber++;
 				} // EO-for
@@ -194,8 +213,7 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * Inner class to handle right-click and left-click on cell button
-	 *
+	 * Inner class to handle left-click on a cell button
 	 */
 	private class MineFieldActionListener implements ActionListener {
 		@Override
@@ -220,6 +238,9 @@ public class View extends JFrame {
 		}
 	}
 
+	/**
+	 * Inner class to handle right-click on a cell button
+	 */
 	private class MineFieldListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -247,14 +268,6 @@ public class View extends JFrame {
 					exception.printStackTrace();
 				}
 				System.out.println("Right button clicked");
-			} else {
-				// try {
-				// // Create message for Left-click
-				// queue.put(new LeftClickMessage(row, column));
-				// } catch (InterruptedException exception) {
-				// exception.printStackTrace();
-				// }
-				// System.out.println("Left button clicked");
 			}
 		}
 
