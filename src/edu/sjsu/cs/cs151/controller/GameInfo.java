@@ -4,9 +4,11 @@ import edu.sjsu.cs.cs151.model.Model;
 
 public class GameInfo {
 	private int[][] gameStatus;
-	private final int CLOSED = -2;
-	private final int FLAGGED = 10;
-	private final int WRONGFLAG = 20;
+	public static final int CLOSED = -2;
+	public static final int FLAGGED = 10;
+	public static final int WRONGFLAG = 20;
+	public static final int MINE = -1;
+	public static final int EMPTY = 0;
 	private int h;
 	private int w;
 	private int numOfMines;
@@ -53,22 +55,24 @@ public class GameInfo {
 	public int flag() {
 		return FLAGGED;
 	}
+
 	public int close() {
 		return CLOSED;
 	}
+
 	public int wrongFlag() {
 		return WRONGFLAG;
 	}
-	
+
 	/**
-	 * Getter for gameStatus 
+	 * Getter for gameStatus
+	 * 
 	 * @return gameStatus
 	 */
-	public int[][] getGameStatus(){
+	public int[][] getGameStatus() {
 		return gameStatus;
 	}
-	
-	
+
 	public void print() { // for debugging use only
 		int h = gameStatus.length;
 		int w = gameStatus[0].length;
@@ -80,13 +84,15 @@ public class GameInfo {
 			System.out.print("]\n");
 		}
 	}
-	
+
 	public int getHeight() {
 		return this.h;
 	}
+
 	public int getWidth() {
 		return this.w;
 	}
+
 	public int getNumOfMines() {
 		return this.numOfMines;
 	}
