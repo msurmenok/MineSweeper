@@ -138,7 +138,7 @@ public class View extends JFrame {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-
+				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
 
 				for (JButton jb : CellButtonList) {
@@ -147,12 +147,15 @@ public class View extends JFrame {
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
 
-					// TODO: Block the button that were opened and flagged
+					// TODO:
 					// setBackground and setForeground do not work
+
 					if (adjacentMines == GameInfo.MINE) // mine
 					{
 						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
+						mineBlowed = true;
+						disableAll();
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
@@ -173,7 +176,7 @@ public class View extends JFrame {
 					{
 						jb.setText("X");
 						jb.setEnabled(false);
-					} else // closed
+					} else if (adjacentMines == GameInfo.CLOSED && mineBlowed == false) // closed
 					{
 						jb.setEnabled(true);
 						jb.setText("");
@@ -184,6 +187,13 @@ public class View extends JFrame {
 			} // EO-run()
 		}); // EO-invokeLater
 	} // EO-change
+	
+	//helper method to disable all button 
+	private void disableAll() {
+		for(JButton jb:CellButtonList) {
+			jb.setEnabled(false);
+		}
+	}
 
 	/**
 	 * Initialize new View with specified queue
