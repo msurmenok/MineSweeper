@@ -50,6 +50,10 @@ public class Controller {
 		this.model = model;
 		this.gameInfo = new GameInfo(model);
 	}
+	
+	//public static void updateModel(Difficulty level) {
+	//	model = new Model(level);
+	//}
 
 	/**
 	 * Iterates through messageQueue and updates the model and the view
