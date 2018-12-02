@@ -6,7 +6,7 @@ import java.util.Date;
  * Model that contains state of all objects of the game
  */
 public class Model {
-	
+
 	private MineField mineField;
 	// private Date staringTime;
 	private MineCounter mineCounter;
@@ -16,8 +16,9 @@ public class Model {
 	private int numberOfMines;
 
 	public boolean gameContinue;
-	//public boolean isWin;
+	// public boolean isWin;
 	public boolean isLose;
+	private Difficulty currDifficulty;
 
 	/**
 	 * Initialize state for a new game
@@ -27,13 +28,13 @@ public class Model {
 			this.height = DifficultyLevel.EASY;
 			this.width = DifficultyLevel.EASY;
 			this.numberOfMines = DifficultyLevel.EASY_MINES;
-		}
-		else if(difficulty == Difficulty.MEDIUM) {
+			
+		} else if (difficulty == Difficulty.MEDIUM) {
 			this.height = DifficultyLevel.MEDIUM;
 			this.width = DifficultyLevel.MEDIUM;
 			this.numberOfMines = DifficultyLevel.MEDIUM_MINES;
-		}
-		else if(difficulty == Difficulty.HARD) {
+			
+		} else if (difficulty == Difficulty.HARD) {
 			this.height = DifficultyLevel.HARD;
 			this.width = DifficultyLevel.HARD;
 			this.numberOfMines = DifficultyLevel.HARD_MINES;
@@ -41,16 +42,17 @@ public class Model {
 
 		this.mineField = new MineField(height, width, numberOfMines);
 		this.mineCounter = new MineCounter(this.numberOfMines);
+		this.currDifficulty = difficulty;
 		gameContinue = true;
 		isLose = false;
-		//isWin = false;
+		// isWin = false;
 	}
 
 	/**
 	 * Reset state. Reinitialize field with mines
 	 */
 	public Model restartGame() {
-		 return new Model(Difficulty.EASY);
+		return new Model(currDifficulty);
 	}
 
 	/**
@@ -62,7 +64,7 @@ public class Model {
 	 *            y coordinate of clicked cell
 	 */
 	public void openCell(int h, int w) {
-		gameContinue = this.mineField.open(h, w);		
+		gameContinue = this.mineField.open(h, w);
 	}
 
 	/**
@@ -109,28 +111,34 @@ public class Model {
 			isLose = true;
 		}
 	}
+
 	/**
 	 * Get current mineField info
+	 * 
 	 * @return mindField information
 	 */
 	public MineField getMineField() {
 		return mineField;
 	}
+
 	public int getHeight() {
 		return height;
 	}
+
 	public int getWidth() {
 		return width;
 	}
+
 	public void gameOver() {
 		System.out.println("Game over! Please start a new game!");
 	}
+
 	public void gameWin() {
 		System.out.println("Bravo! You won!");
 	}
+
 	public int getNumOfMines() {
 		return this.numberOfMines;
 	}
-	
 
 }
