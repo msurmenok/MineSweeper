@@ -179,6 +179,7 @@ public class Controller {
 				gameInfo.print();// for testing purpose
 				view.change(gameInfo);
 				model.gameOver();
+				//TODO : try to block everything after the game is over
 				
 
 			}
