@@ -35,10 +35,10 @@ public class Controller {
 	 *            model of the game
 	 */
 	public Controller(View view, Model model, BlockingQueue<Message> queue) {
-		this.view = view;
 		this.model = model;
-		this.queue = queue;
 		this.gameInfo = new GameInfo(model);
+		this.view = view;
+		this.queue = queue;
 		this.valves.add(new NewGameValve());
 		this.valves.add(new LeftClickValve());
 		this.valves.add(new RightClickValve());
@@ -51,9 +51,6 @@ public class Controller {
 		this.gameInfo = new GameInfo(model);
 	}
 	
-	//public static void updateModel(Difficulty level) {
-	//	model = new Model(level);
-	//}
 
 	/**
 	 * Iterates through messageQueue and updates the model and the view
@@ -177,14 +174,15 @@ public class Controller {
 					gameInfo.print();
 					model.gameWin();
 					view.change(gameInfo);
+					// TODO: Add winning message on VIEW
+
 				}
 
 			} else {
 				gameInfo.print();// for testing purpose
-				view.change(gameInfo);
 				model.gameOver();
-				//TODO : try to block everything after the game is over
-				
+				view.change(gameInfo);
+				// TODO: Add losing message on VIEW
 
 			}
 
