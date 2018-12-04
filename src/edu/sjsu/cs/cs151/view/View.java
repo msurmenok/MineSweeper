@@ -146,6 +146,9 @@ public class View extends JFrame {
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
 
+				// mineCounter update
+				mineCounter.setText("" + gameInfo.getNumOfMines());
+
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
 					int column = buttonNumber - (row * numberOfColumns);
