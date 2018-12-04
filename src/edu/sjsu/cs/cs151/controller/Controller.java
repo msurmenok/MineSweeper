@@ -100,6 +100,7 @@ public class Controller {
 		} else {
 			showAllMines(gameInfo);
 		}
+		gameInfo.updateNumOfMines(model.getNumOfMinesFromCounter()); //update number of mines in gameInfo
 	}
 
 	// helper method to show all mines
