@@ -146,15 +146,15 @@ public class View extends JFrame {
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
 
+				// mineCounter update
+				mineCounter.setText("" + gameInfo.getNumOfMines());
+
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
 					int column = buttonNumber - (row * numberOfColumns);
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
-					if (adjacentMines == GameInfo.MINE){
-						mineBlowed = true;
-						disableAll();  
-					}
+					
 					// TODO:
 					// setBackground and setForeground do not work
 
@@ -162,6 +162,7 @@ public class View extends JFrame {
 					{
 						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
+						mineBlowed = true;
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
@@ -190,6 +191,9 @@ public class View extends JFrame {
 
 					buttonNumber++;
 				} // EO-for
+				if(mineBlowed) {
+					disableAll();
+				}
 			} // EO-run()
 		}); // EO-invokeLater
 	} // EO-change
