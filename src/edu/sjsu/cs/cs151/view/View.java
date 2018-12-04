@@ -42,6 +42,7 @@ public class View extends JFrame {
 
 	List<JButton> CellButtonList;
 	long initTime;
+	Timer gameTimer;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -78,7 +79,8 @@ public class View extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
-				Timer gameTimer = new Timer(1000, new ActionListener() {
+				//Timer gameTimer = new Timer(1000, new ActionListener() {
+				gameTimer = new Timer(1000, new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (initTime < 0)
 							initTime = System.currentTimeMillis();
@@ -143,25 +145,27 @@ public class View extends JFrame {
 			public void run() {
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
-				
-				// Update mine counter
-				// TODO: check why getNumbOfMines return the same value
-				mineCounter.setText("" + gameInfo.getNumOfMines());
-				System.out.println(gameInfo.getNumOfMines());
-				
+
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
 					int column = buttonNumber - (row * numberOfColumns);
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
-
+					if (adjacentMines == GameInfo.MINE){
+						mineBlowed = true;
+						disableAll();  
+					}
+					// TODO:
+					// setBackground and setForeground do not work
 
 					if (adjacentMines == GameInfo.MINE) // mine
 					{
+						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
+						// jb.setForeground(Color.RED);
 						jb.setEnabled(false);
 					} else if (adjacentMines > 0 && adjacentMines < 10)// number cell
 					{
@@ -195,6 +199,11 @@ public class View extends JFrame {
 		for(JButton jb:CellButtonList) {
 			jb.setEnabled(false);
 		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				gameTimer.stop();
+			} // EO-run()
+		}); // EO-invokeLater
 	}
 
 	/**
@@ -214,6 +223,12 @@ public class View extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						initTime = -1;
+						gameTimer.start();
+					}// EO-run()
+				}); // EO-invokeLater
 				queue.put(new NewGameMessage());
 				printQueue();
 			} catch (InterruptedException exception) {
