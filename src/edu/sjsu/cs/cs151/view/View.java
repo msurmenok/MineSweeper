@@ -14,6 +14,8 @@ import edu.sjsu.cs.cs151.Message;
 import edu.sjsu.cs.cs151.NewGameMessage;
 import edu.sjsu.cs.cs151.RightClickMessage;
 import edu.sjsu.cs.cs151.controller.GameInfo;
+import edu.sjsu.cs.cs151.model.Difficulty;
+import edu.sjsu.cs.cs151.model.DifficultyLevel;
 import edu.sjsu.cs.cs151.model.Model;
 
 import java.util.Queue;
@@ -36,6 +38,7 @@ public class View extends JFrame {
 	Model model;
 	int numberOfColumns;
 	int numberOfRows;
+	Difficulty difficulty;
 
 	List<JButton> CellButtonList;
 	long initTime;
@@ -51,9 +54,9 @@ public class View extends JFrame {
 		this.queue = queue;
 
 		// Replace with information from GameInfo
-		int numberOfMines = 4;
-		int numberOfRows = 8;
-		int numberOfColumns = 8;
+		int numberOfMines = DifficultyLevel.EASY_MINES;
+		int numberOfRows = DifficultyLevel.EASY;
+		int numberOfColumns = DifficultyLevel.EASY;
 
 		this.numberOfColumns = numberOfColumns;
 		this.numberOfRows = numberOfRows;
