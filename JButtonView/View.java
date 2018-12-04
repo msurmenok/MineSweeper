@@ -3,7 +3,7 @@ package edu.sjsu.cs.cs151.view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
-import javax.swing.Timer; 
+import javax.swing.Timer;
 import java.text.SimpleDateFormat;
 
 import java.awt.*;
@@ -39,6 +39,9 @@ public class View extends JFrame {
 
 	List<JButton> CellButtonList;
 	long initTime;
+  JLabel timer;
+  JLabel statusBar;
+  Timer gameTimer;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -51,7 +54,7 @@ public class View extends JFrame {
 		this.queue = queue;
 
 		// Replace with information from GameInfo
-		int numberOfMines = 4;
+		int numberOfMines = 10;
 		int numberOfRows = 8;
 		int numberOfColumns = 8;
 
@@ -62,28 +65,28 @@ public class View extends JFrame {
 		// Top row that holds mine counter, new game button, and timer
 		controlPanel = new JPanel();
 
-
 		// Create elements for control panel
 		mineCounter = new JLabel("" + numberOfMines);
 		JButton newGameButton = new JButton("New Game");
 		// Add listener to button
 		newGameButton.addActionListener(new NewGameListener());
 
-		JLabel timer = new JLabel("00:00");
+		timer = new JLabel("00:00");
 		// Game Timer
 		initTime = -1;
 		// speed 1sec = 1000 millisec
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				Timer gameTimer = new Timer(1000, new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (initTime < 0)
-						initTime = System.currentTimeMillis();
-					long now = System.currentTimeMillis();
-					long timeElapsed = now - initTime;
-					timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
-				} // EO-actionPerformed
-        }); // EO-Timer
+
+				gameTimer = new Timer(1000, new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (initTime < 0)
+							initTime = System.currentTimeMillis();
+						long now = System.currentTimeMillis();
+						long timeElapsed = now - initTime;
+						timer.setText(new SimpleDateFormat("mm:ss").format(timeElapsed));
+					} // EO-actionPerformed
+				}); // EO-Timer
 				gameTimer.start(); // should stop when game is over
 			} // EO-run()
 		}); // EO-invokeLater
@@ -91,7 +94,6 @@ public class View extends JFrame {
 		controlPanel.add(mineCounter);
 		controlPanel.add(newGameButton);
 		controlPanel.add(timer);
-
 
 		// FIELDPANEL
 		// Panel for a mine field
@@ -108,6 +110,7 @@ public class View extends JFrame {
 			cell.setName(i + ", ");
 			cell.setPreferredSize(new Dimension(30, 30));
 			cell.addMouseListener(new MineFieldListener());
+			cell.addActionListener(new MineFieldActionListener());
 			fieldPanel.add(cell);
 			CellButtonList.add(cell);
 		}
@@ -134,37 +137,75 @@ public class View extends JFrame {
 		// Assign integer from 0 to N (where N = width*height) number to each button.
 		// height = row, width = column => buttonNumber = width + (height * 8)
 		// Update number of remaining mines in JLabel mineCounter.
-    //
+		//
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
+				int buttonNumber = 0;
 
-			int buttonNumber = 0;
+				// mineCounter
+				mineCounter.setText(gameInfo.getNumOfMines() + "");
 
-			for (JButton jb: CellButtonList) {                                         
-				int row = (int) buttonNumber / numberOfColumns;
-				int column = buttonNumber - (row * numberOfColumns);
-                                                                                 
-				int adjacentMines = gameInfo.getGameStatus()[row][column];
-                                                                                 
-				if (adjacentMines == -1) // mine
-					jb.setText("M");
-				else if (adjacentMines == 10) // flag
-					jb.setText("?");
-				else if (adjacentMines > 0 && adjacentMines < 10)// number cell
-					jb.setText(adjacentMines + "");
-				else if (adjacentMines == 0) // empty cell
-					jb.setText("0");
-				else if (adjacentMines == 20) // wrong flag 
-					jb.setText("X");
-				else // closed
-					jb.setText("");
+				// buttons
+				for (JButton jb : CellButtonList) {
+					int row = (int) buttonNumber / numberOfColumns;
+					int column = buttonNumber - (row * numberOfColumns);
 
-				buttonNumber++;
-			} // EO-for
-		} // EO-run()
+					int adjacentMines = gameInfo.getGameStatus()[row][column];
+
+					// TODO:
+					// setBackground and setForeground do not work
+
+					if (adjacentMines == GameInfo.MINE) // mine
+					{
+						// jb.setBackground(Color.DARK_GRAY);
+						jb.setText("M");
+						mineBlowed = true;
+						disableAll();
+					} else if (adjacentMines == GameInfo.FLAGGED) // flag
+					{
+						jb.setText("?");
+						// jb.setForeground(Color.RED);
+						jb.setEnabled(false);
+					} else if (adjacentMines > 0 && adjacentMines < 10)// number cell
+					{
+						jb.setText(adjacentMines + "");
+						// jb.setBackground(Color.DARK_GRAY);
+						jb.setEnabled(false);
+
+					} else if (adjacentMines == GameInfo.EMPTY) // empty cell
+					{
+						// jb.setBackground(Color.DARK_GRAY);
+						jb.setText("0");
+						jb.setEnabled(false);
+					} else if (adjacentMines == GameInfo.WRONGFLAG) // wrong flag
+					{
+						jb.setText("X");
+						jb.setEnabled(false);
+					} else if (adjacentMines == GameInfo.CLOSED && mineBlowed == false) // closed
+					{
+						jb.setEnabled(true);
+						jb.setText("");
+					}
+
+					buttonNumber++;
+				} // EO-for
+			} // EO-run()
 		}); // EO-invokeLater
 	} // EO-change
+	
+	//helper method to disable all button 
+	private void disableAll() {
+		for(JButton jb:CellButtonList) {
+			jb.setEnabled(false);
+		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				gameTimer.stop();
+			} // EO-run()
+		}); // EO-invokeLater
+	}
 
 	/**
 	 * Initialize new View with specified queue
@@ -183,6 +224,12 @@ public class View extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				initTime = -1;
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						gameTimer.start();
+					}// EO-run()
+					}); // EO-invokeLater
 				queue.put(new NewGameMessage());
 				printQueue();
 			} catch (InterruptedException exception) {
@@ -194,8 +241,33 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * Inner class to handle right-click and left-click on cell button
-	 *
+	 * Inner class to handle left-click on a cell button
+	 */
+	private class MineFieldActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonInfo = e.getSource().toString();
+			buttonInfo = buttonInfo.replaceFirst("javax.swing.JButton\\[", "");
+			buttonInfo = buttonInfo.split(",")[0];
+			int buttonNumber = Integer.parseInt(buttonInfo);
+
+			// Calculate row (height) and column (width) of the button
+			int row = (int) buttonNumber / numberOfColumns;
+			int column = buttonNumber - (row * numberOfColumns);
+			System.out.println("Button with row: " + row + ", column: " + column);
+
+			try {
+				// Create message for Left-click
+				queue.put(new LeftClickMessage(row, column));
+			} catch (InterruptedException exception) {
+				exception.printStackTrace();
+			}
+			System.out.println("Left button clicked");
+		}
+	}
+
+	/**
+	 * Inner class to handle right-click on a cell button
 	 */
 	private class MineFieldListener implements MouseListener {
 		@Override
@@ -224,14 +296,6 @@ public class View extends JFrame {
 					exception.printStackTrace();
 				}
 				System.out.println("Right button clicked");
-			} else {
-				try {
-					// Create message for Left-click
-					queue.put(new LeftClickMessage(row, column));
-				} catch (InterruptedException exception) {
-					exception.printStackTrace();
-				}
-				System.out.println("Left button clicked");
 			}
 		}
 
@@ -266,7 +330,7 @@ public class View extends JFrame {
 	}
 
 	// toggle a flag for display update
-	public void replaceFlag(MouseEvent e) { 
+	public void replaceFlag(MouseEvent e) {
 		JButton jb = (JButton) e.getSource();
 		jb.setText("");
 	}
