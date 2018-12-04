@@ -24,10 +24,10 @@ Check-list/to-do-list
 
 [ ]10. Also you may consider having one listener attached to the MineFieldPanel instead of each button and get the coordinates of the point pressed to identify the button.
 
-[ ]11. Add gameOver() => generate new model; all button reset; timer.stop (init -1)
+[v]11. Add gameOver() => generate new model; all button reset; timer.stop (init -1)
 
 [ ]12. javadoc update
 
-[ ]13. MineCounter update in JFrame
+[v]13. MineCounter update in JFrame
                                       
 [ ]14. Unit test
