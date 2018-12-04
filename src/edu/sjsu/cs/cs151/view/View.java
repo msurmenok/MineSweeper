@@ -143,26 +143,27 @@ public class View extends JFrame {
 			public void run() {
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
-
+				
+				// Update mine counter
+				// TODO: check why getNumbOfMines return the same value
+				mineCounter.setText("" + gameInfo.getNumOfMines());
+				System.out.println(gameInfo.getNumOfMines());
+				
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
 					int column = buttonNumber - (row * numberOfColumns);
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
 
-					// TODO:
-					// setBackground and setForeground do not work
 
 					if (adjacentMines == GameInfo.MINE) // mine
 					{
-						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
 						mineBlowed = true;
 						disableAll();
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
-						// jb.setForeground(Color.RED);
 						jb.setEnabled(false);
 					} else if (adjacentMines > 0 && adjacentMines < 10)// number cell
 					{
