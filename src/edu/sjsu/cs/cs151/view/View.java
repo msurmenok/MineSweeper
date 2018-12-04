@@ -159,8 +159,6 @@ public class View extends JFrame {
 					if (adjacentMines == GameInfo.MINE) // mine
 					{
 						jb.setText("M");
-						mineBlowed = true;
-						disableAll();
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
