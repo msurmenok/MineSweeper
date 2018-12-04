@@ -149,7 +149,10 @@ public class View extends JFrame {
 					int column = buttonNumber - (row * numberOfColumns);
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
-
+					if (adjacentMines == GameInfo.MINE){
+						mineBlowed = true;
+						disableAll();  
+					}
 					// TODO:
 					// setBackground and setForeground do not work
 
@@ -157,8 +160,6 @@ public class View extends JFrame {
 					{
 						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
-						mineBlowed = true;
-						disableAll();
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
