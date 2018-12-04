@@ -14,6 +14,8 @@ import edu.sjsu.cs.cs151.Message;
 import edu.sjsu.cs.cs151.NewGameMessage;
 import edu.sjsu.cs.cs151.RightClickMessage;
 import edu.sjsu.cs.cs151.controller.GameInfo;
+import edu.sjsu.cs.cs151.model.Difficulty;
+import edu.sjsu.cs.cs151.model.DifficultyLevel;
 import edu.sjsu.cs.cs151.model.Model;
 
 import java.util.Queue;
@@ -36,12 +38,11 @@ public class View extends JFrame {
 	Model model;
 	int numberOfColumns;
 	int numberOfRows;
+	Difficulty difficulty;
 
 	List<JButton> CellButtonList;
 	long initTime;
-  JLabel timer;
-  JLabel statusBar;
-  Timer gameTimer;
+	Timer gameTimer;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -54,9 +55,9 @@ public class View extends JFrame {
 		this.queue = queue;
 
 		// Replace with information from GameInfo
-		int numberOfMines = 10;
-		int numberOfRows = 8;
-		int numberOfColumns = 8;
+		int numberOfMines = DifficultyLevel.EASY_MINES;
+		int numberOfRows = DifficultyLevel.EASY;
+		int numberOfColumns = DifficultyLevel.EASY;
 
 		this.numberOfColumns = numberOfColumns;
 		this.numberOfRows = numberOfRows;
@@ -71,13 +72,14 @@ public class View extends JFrame {
 		// Add listener to button
 		newGameButton.addActionListener(new NewGameListener());
 
-		timer = new JLabel("00:00");
+		JLabel timer = new JLabel("00:00");
 		// Game Timer
 		initTime = -1;
 		// speed 1sec = 1000 millisec
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
+				//Timer gameTimer = new Timer(1000, new ActionListener() {
 				gameTimer = new Timer(1000, new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (initTime < 0)
@@ -144,16 +146,15 @@ public class View extends JFrame {
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
 
-				// mineCounter
-				mineCounter.setText(gameInfo.getNumOfMines() + "");
-
-				// buttons
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
 					int column = buttonNumber - (row * numberOfColumns);
 
 					int adjacentMines = gameInfo.getGameStatus()[row][column];
-
+					if (adjacentMines == GameInfo.MINE){
+						mineBlowed = true;
+						disableAll();  
+					}
 					// TODO:
 					// setBackground and setForeground do not work
 
@@ -161,8 +162,6 @@ public class View extends JFrame {
 					{
 						// jb.setBackground(Color.DARK_GRAY);
 						jb.setText("M");
-						mineBlowed = true;
-						disableAll();
 					} else if (adjacentMines == GameInfo.FLAGGED) // flag
 					{
 						jb.setText("?");
@@ -224,12 +223,12 @@ public class View extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				initTime = -1;
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
+						initTime = -1;
 						gameTimer.start();
 					}// EO-run()
-					}); // EO-invokeLater
+				}); // EO-invokeLater
 				queue.put(new NewGameMessage());
 				printQueue();
 			} catch (InterruptedException exception) {
