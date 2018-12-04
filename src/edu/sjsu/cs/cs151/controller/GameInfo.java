@@ -92,9 +92,21 @@ public class GameInfo {
 	public int getWidth() {
 		return this.w;
 	}
-
+	
+	/**
+	 * Getter to get the updated numOfMines
+	 * @return
+	 */
 	public int getNumOfMines() {
 		return this.numOfMines;
+	}
+	
+	/**
+	 * Setter to set numOfmines according to the change of the model
+	 * @param mines
+	 */
+	public void updateNumOfMines(int mines) {
+		this.numOfMines= mines;
 	}
 
 }
