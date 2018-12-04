@@ -25,4 +25,11 @@ public class MineCounter {
   public void increaseMine() {
     numOfMines++;
   }
+
+  /**
+   * return current number of mines  instead of initial number
+   */
+  public int getCurrentNumOfMine() {
+    return this.numOfMines;
+  }
 }

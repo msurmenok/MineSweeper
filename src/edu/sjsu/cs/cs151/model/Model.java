@@ -78,9 +78,11 @@ public class Model {
 	public void toggleCellFlag(int h, int w) {
 		this.mineField.toggleFlag(h, w);
 		if (this.mineField.cells[h][w].isFlagged()) {
-			this.mineCounter.increaseMine();
+			//this.mineCounter.increaseMine();
+			this.mineCounter.decreaseMine(); // should crease
 		} else {
-			this.mineCounter.decreaseMine();
+			//this.mineCounter.decreaseMine();
+			this.mineCounter.increaseMine(); // should increase
 		}
 
 	}
@@ -137,8 +139,14 @@ public class Model {
 		System.out.println("Bravo! You won!");
 	}
 
+  // initial number of mines
 	public int getNumOfMines() {
 		return this.numberOfMines;
+	}
+
+  // change in number of mines reflecting flags
+	public int getNumOfMinesFromCounter() {
+		return this.mineCounter.getCurrentNumOfMine();
 	}
 
 }
