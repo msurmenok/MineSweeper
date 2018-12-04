@@ -8,7 +8,7 @@ Check-list/to-do-list
 
 [ ]2. Create app directory: edu.sjsu.cs.cs151.*app*
 
-[ ]3. Add textbox(JLabel) showing game status in JFrame
+[x]3. Add textbox(JLabel) showing game status in JFrame
 
 [ ]4. Add difficulty level selection menu in JFrame
 
