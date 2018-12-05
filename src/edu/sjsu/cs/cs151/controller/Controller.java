@@ -211,4 +211,12 @@ public class Controller {
 			return ValveResponse.EXECUTED;
 		}
 	}
+	
+	/**
+	 * Getter to get gameInfo
+	 * @return current gameInfo
+	 */
+	public GameInfo getGameInfo() {
+		return gameInfo;
+	}
 }
