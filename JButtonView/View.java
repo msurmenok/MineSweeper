@@ -153,8 +153,10 @@ public class View extends JFrame {
 		// Update number of remaining mines in JLabel mineCounter.
 		//
 
+    /*
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+    */
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
 
@@ -199,23 +201,26 @@ public class View extends JFrame {
 					} else if (adjacentMines == GameInfo.CLOSED && mineBlowed == false) // closed
 					{
 						jb.setEnabled(true);
-						jb.setText("");
+						jb.setText("");		
 					}
 
 					buttonNumber++;
 				} // EO-for
-				if(mineBlowed) { // losing case
-          gameTimer.stop(); // stop timer
-					disableAll(); // mute all buttons
-				  statusBar.setText("Game over! Please start a new game!");
-				} 
-        if (gameInfo.isWin()) { // winnig case
-          gameTimer.stop(); // stop timer
-					disableAll(); // mute all buttons
-          statusBar.setText("Bravo! You won!");
-        }
+				if (mineBlowed) {
+					disableAll();
+					statusBar.setText("Game over! Please start a new game!");
+					gameTimer.stop();
+				}
+				// winning case	
+				if (gameInfo.isWin()) {
+					statusBar.setText("Bravo! You won!");
+					gameTimer.stop();
+					disableAll();
+				}
+    /*
 			} // EO-run()
 		}); // EO-invokeLater
+    */
 	} // EO-change
 	
 	//helper method to disable all button 
@@ -223,11 +228,7 @@ public class View extends JFrame {
 		for(JButton jb:CellButtonList) {
 			jb.setEnabled(false);
 		}
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				gameTimer.stop();
-			} // EO-run()
-		}); // EO-invokeLater
+		
 	}
 
 	/**
