@@ -37,4 +37,10 @@ public class TestCell {
 		cell.setOpen();
 		assertTrue(cell.isOpened());
 	}
+
+	@Test
+	public void testAdjacentMines() {
+		Cell cell = new Cell(0);
+		assertEquals(cell.getAdjacentMines(), 0);
+	}
 }
