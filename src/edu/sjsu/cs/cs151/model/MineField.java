@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * MineField class is a 2d array that represents a field of mines
  */
 public class MineField {
-	Cell[][] cells;//visibility to package so Model.java can visit
+	Cell[][] cells;// visibility to package so Model.java can visit
 	private int height;
 	private int width;
 	private int numberOfMines;
@@ -16,6 +16,13 @@ public class MineField {
 
 	/**
 	 * Generate mine field for the first time
+	 * 
+	 * @param height
+	 *            vertical number of cells
+	 * @param width
+	 *            horizontal number of cells
+	 * @param mines
+	 *            number of mines randomly placed in the field
 	 */
 	public MineField(int height, int width, int mines) {
 		this.height = height;
@@ -23,13 +30,12 @@ public class MineField {
 		numberOfCells = height * width;
 		mineBoolean = new boolean[numberOfCells];
 		this.numberOfMines = mines;
-		//generateMineField();
+		// generateMineField();
 		cells = new Cell[height][width];
 		this.calcAdjacentMines();
 		this.numberOfOpenedCells = 0;
 		// addMouseListener(new GameMouseAdapter());
 	}
-
 
 	/**
 	 * Check out how many mines near the specific cell
@@ -52,7 +58,7 @@ public class MineField {
 				}
 				// Increase counter if the specified cell is mine.
 				// if (this.getCell(i, j).isMine()) {
-				if (hasMine(i, j) > 0) {
+				if (hasMine(i, j)) {
 					mineCounter++;
 				}
 			}
@@ -60,15 +66,23 @@ public class MineField {
 		return mineCounter;
 	}
 
-	private int hasMine(int h, int w) // Model:Method
-	{
+	/**
+	 * Check if the specific cell is a mine
+	 * 
+	 * @param h
+	 *            height of the cell (row)
+	 * @param w
+	 *            width of the cell (column)
+	 * @return true if the cell is a mine
+	 */
+	private boolean hasMine(int h, int w) {
 		if (h < 0 || height <= h || w < 0 || width <= w)
-			return 0;
+			return false;
 		int i = h * width + w;
 		if (mineBoolean[i])
-			return 1;
+			return true;
 		else
-			return 0;
+			return false;
 	}
 
 	public void generateMineField() // Model:Method
@@ -224,8 +238,8 @@ public class MineField {
 	public int getNumOfMines() {
 		return numberOfMines;
 	}
-	
-	//for testing only. Can delete later
+
+	// for testing only. Can delete later
 	public boolean[] getMineBoolean() {
 		return mineBoolean;
 	}
