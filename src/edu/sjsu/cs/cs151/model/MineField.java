@@ -5,7 +5,8 @@ import java.util.ArrayList;
 /**
  * MineField class is a 2d array that represents a field of mines
  */
-public class MineField {
+//public class MineField {
+public class MineField implements BoundaryChecker { // proxy pattern 
 	Cell[][] cells;// visibility to package so Model.java can visit
 	private int height;
 	private int width;
@@ -76,8 +77,10 @@ public class MineField {
 	 * @return true if the cell is a mine
 	 */
 	private boolean hasMine(int h, int w) {
-		if (h < 0 || height <= h || w < 0 || width <= w)
+		if (!boundaryProxy(h, w)) 
 			return false;
+		//if (h < 0 || height <= h || w < 0 || width <= w)
+		//	return false;
 		int i = h * width + w;
 		if (mineBoolean[i])
 			return true;
@@ -195,8 +198,10 @@ public class MineField {
 	}
 
 	private int openZeroArea(int h, int w) {
-		if (h < 0 || height <= h || w < 0 || width <= w)
+		if (!boundaryProxy(h, w)) 
 			return 0;
+		//if (h < 0 || height <= h || w < 0 || width <= w)
+		//	return 0;
 
 		Cell cell = cells[h][w];
 
@@ -238,5 +243,11 @@ public class MineField {
 	public boolean[] getMineBoolean() {
 		return mineBoolean;
 	}
+
+	public boolean boundaryProxy(int h, int w) {
+		if (h < 0 || height <= h || w < 0 || width <= w)
+			return false;
+		return true;
+		}
 
 }
