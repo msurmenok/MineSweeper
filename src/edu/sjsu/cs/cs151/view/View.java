@@ -43,6 +43,8 @@ public class View extends JFrame {
 	List<JButton> CellButtonList;
 	long initTime;
 	Timer gameTimer;
+	JLabel statusBar;
+	String statusMsg;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -104,6 +106,13 @@ public class View extends JFrame {
 		fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		fieldPanel.setLayout(new GridLayout(numberOfRows, numberOfColumns));
 
+		// statusBar
+		JPanel messagePanel = new JPanel();
+		//messagePanel.setSize(200, 20);
+		statusMsg = "<html><center>Light-click: Open; Right-click: Flag</center></html>";
+		statusBar = new JLabel(statusMsg);
+		messagePanel.add(statusBar);
+
 		CellButtonList = new ArrayList<>();
 
 		for (int i = 0; i < numberOfRows * numberOfColumns; i++) {
@@ -118,8 +127,11 @@ public class View extends JFrame {
 		}
 
 		// this.setSize(200, 600);
-		this.add(controlPanel, BorderLayout.CENTER);
-		this.add(fieldPanel, BorderLayout.SOUTH);
+		//this.add(controlPanel, BorderLayout.CENTER);
+		//this.add(fieldPanel, BorderLayout.SOUTH);
+		this.add(controlPanel, BorderLayout.NORTH);
+		this.add(fieldPanel, BorderLayout.CENTER);
+		this.add(messagePanel, BorderLayout.SOUTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
@@ -148,6 +160,12 @@ public class View extends JFrame {
 
 				// mineCounter update
 				mineCounter.setText("" + gameInfo.getNumOfMines());
+
+        // winning case
+        if (gameInfo.isWin()) {
+          statusBar.setText("Bravo! You won!");
+          gameTimer.stop();
+        }
 
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
@@ -230,6 +248,7 @@ public class View extends JFrame {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						initTime = -1;
+						statusBar.setText(statusMsg);
 						gameTimer.start();
 					}// EO-run()
 				}); // EO-invokeLater
