@@ -8,7 +8,6 @@ import java.util.Date;
 public class Model {
 
 	private MineField mineField;
-	// private Date staringTime;
 	private MineCounter mineCounter;
 
 	private int height;
@@ -22,18 +21,21 @@ public class Model {
 
 	/**
 	 * Initialize state for a new game
+	 * 
+	 * @param difficulty
+	 *            can be EASY, MEDIUM, or HARD
 	 */
 	public Model(Difficulty difficulty) {
 		if (difficulty == Difficulty.EASY) {
 			this.height = DifficultyLevel.EASY;
 			this.width = DifficultyLevel.EASY;
 			this.numberOfMines = DifficultyLevel.EASY_MINES;
-			
+
 		} else if (difficulty == Difficulty.MEDIUM) {
 			this.height = DifficultyLevel.MEDIUM;
 			this.width = DifficultyLevel.MEDIUM;
 			this.numberOfMines = DifficultyLevel.MEDIUM_MINES;
-			
+
 		} else if (difficulty == Difficulty.HARD) {
 			this.height = DifficultyLevel.HARD;
 			this.width = DifficultyLevel.HARD;
@@ -58,10 +60,10 @@ public class Model {
 	/**
 	 * Handles user click on the mine field
 	 * 
-	 * @param x
-	 *            x coordinate of clicked cell
-	 * @param y
-	 *            y coordinate of clicked cell
+	 * @param h
+	 *            height of the clicked cell (its row)
+	 * @param w
+	 *            width of the clicked cell (its column)
 	 */
 	public void openCell(int h, int w) {
 		gameContinue = this.mineField.open(h, w);
@@ -71,33 +73,38 @@ public class Model {
 	 * If cell is already flagged, remove flag, otherwise set flag
 	 * 
 	 * @param h
+	 *            height of the clicked cell (its row)
 	 * 
 	 * @param w
-	 *            y coordinate
+	 *            width of the clicked cell (its column)
 	 */
 	public void toggleCellFlag(int h, int w) {
 		this.mineField.toggleFlag(h, w);
 		if (this.mineField.cells[h][w].isFlagged()) {
-			//this.mineCounter.increaseMine();
+			// this.mineCounter.increaseMine();
 			this.mineCounter.decreaseMine(); // should crease
 		} else {
-			//this.mineCounter.decreaseMine();
+			// this.mineCounter.decreaseMine();
 			this.mineCounter.increaseMine(); // should increase
 		}
 
 	}
 
 	/**
-	 * Record the staring time of the first click
+	 * Check if game still on
+	 * 
+	 * @return true if game continues
 	 */
-	public void setStartingTime() { // Thinking to move this part to game
-
-	}
-
 	public boolean getGameStatus() {
 		return gameContinue;
 	}
 
+	/**
+	 * Check if user has won. Conditions to win: game is still continuing, all cells
+	 * that are not mines are opened
+	 * 
+	 * @return true if user has won
+	 */
 	public boolean isWin() {
 		if (gameContinue) {
 			if (this.mineField.getNumOfTotalCells() - this.mineField.getNumOfOpenedCells() == this.mineField
@@ -108,6 +115,9 @@ public class Model {
 		return false;
 	}
 
+	/**
+	 * Set isLose to true if user has clicked on mine cell
+	 */
 	public void setLose() {
 		if (!gameContinue) {
 			isLose = true;
@@ -117,34 +127,59 @@ public class Model {
 	/**
 	 * Get current mineField info
 	 * 
-	 * @return mindField information
+	 * @return mineField information
 	 */
 	public MineField getMineField() {
 		return mineField;
 	}
 
+	/**
+	 * Accessor to field height
+	 * 
+	 * @return the number of rows in mineField
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Accessor to field width
+	 * 
+	 * @return the number of columns in mineField
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Method for debugging, prints on console if the game is over
+	 */
 	public void gameOver() {
 		System.out.println("Game over! Please start a new game!");
 	}
 
+	/**
+	 * Method for debugging, prints on console if user has won
+	 */
 	public void gameWin() {
 		System.out.println("Bravo! You won!");
 	}
 
-  // initial number of mines
+	/**
+	 * Accessor to numberOfMines
+	 * 
+	 * @return how many mines are hidden on the field
+	 */
 	public int getNumOfMines() {
 		return this.numberOfMines;
 	}
 
-  // change in number of mines reflecting flags
+	/**
+	 * Return the estimated number of mines, which is number of real mines - number
+	 * of flags
+	 * 
+	 * @return estimated number of remaining mines
+	 */
 	public int getNumOfMinesFromCounter() {
 		return this.mineCounter.getCurrentNumOfMine();
 	}
