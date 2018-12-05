@@ -1,8 +1,10 @@
-package edu.sjsu.cs.cs151.model;
+package edu.sjsu.cs.cs151.tests;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import edu.sjsu.cs.cs151.model.MineField;
 
 public class TestModel {
 	
