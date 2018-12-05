@@ -97,7 +97,7 @@ public class Controller {
 							gameInfo.gameInfoUpdate(i, j, gameInfo.flag());
 						}
 					} else {
-						int currCell = (currentCells[i][j]).adjacentMines();
+						int currCell = (currentCells[i][j]).getAdjacentMines();
 						gameInfo.gameInfoUpdate(i, j, currCell);
 					}
 				}
@@ -119,11 +119,11 @@ public class Controller {
 		int w = model.getWidth();
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				if (currentCells[i][j].adjacentMines() == -1) {
+				if (currentCells[i][j].getAdjacentMines() == -1) {
 					if (currentCells[i][j].isFlagged()) {
 						gameInfo.gameInfoUpdate(i, j, gameInfo.wrongFlag());
 					} else {
-						gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines());
+						gameInfo.gameInfoUpdate(i, j, currentCells[i][j].getAdjacentMines());
 					}
 				}
 

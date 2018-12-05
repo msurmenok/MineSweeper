@@ -18,7 +18,7 @@ public class Cell {
 		isOpened = false;
 	}
 
-	public int adjacentMines() {
+	public int getAdjacentMines() {
 		return this.adjacentMines;
 	}
 
