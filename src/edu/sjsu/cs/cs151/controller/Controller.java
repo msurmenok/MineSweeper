@@ -174,6 +174,7 @@ public class Controller {
 				} else {
 					gameInfo.print();
 					model.gameWin();
+					gameInfo.setWin();
 					view.change(gameInfo);
 					// TODO: Add winning message on VIEW
 
