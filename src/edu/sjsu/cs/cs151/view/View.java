@@ -161,11 +161,6 @@ public class View extends JFrame {
 				// mineCounter update
 				mineCounter.setText("" + gameInfo.getNumOfMines());
 
-        // winning case
-        if (gameInfo.isWin()) {
-          statusBar.setText("Bravo! You won!");
-          gameTimer.stop();
-        }
 
 				for (JButton jb : CellButtonList) {
 					int row = (int) buttonNumber / numberOfColumns;
@@ -205,6 +200,11 @@ public class View extends JFrame {
 					{
 						jb.setEnabled(true);
 						jb.setText("");
+            // winning case
+            if (gameInfo.isWin()) {
+              statusBar.setText("Bravo! You won!");
+              gameTimer.stop();
+            }
 					}
 
 					buttonNumber++;
@@ -223,6 +223,7 @@ public class View extends JFrame {
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				statusBar.setText("Game over! Please start a new game!");
 				gameTimer.stop();
 			} // EO-run()
 		}); // EO-invokeLater
