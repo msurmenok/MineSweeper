@@ -84,7 +84,7 @@ public class MineField {
 		// set mines WITHOUT DUPLICATE RANDOM NUMBERS
 		// 2nd. swapping the randomly selected cells
 		for (int i = 0; i < numberOfCells; i++) {
-			int index = new java.util.Random().nextInt(numberOfCells - i) + 1;
+			int index = new java.util.Random().nextInt(numberOfCells - i);
 			// swap two m[i] and m[index]
 			boolean temp = mineBoolean[i];
 			mineBoolean[i] = mineBoolean[index];
