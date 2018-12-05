@@ -34,6 +34,8 @@ public class Controller {
 	 *            GUI representation of the game
 	 * @param model
 	 *            model of the game
+	 * @param queue
+	 *            data structure to keep information about user activities
 	 */
 	public Controller(View view, Model model, BlockingQueue<Message> queue) {
 		this.model = model;
@@ -54,6 +56,9 @@ public class Controller {
 
 	/**
 	 * Iterates through messageQueue and updates the model and the view
+	 * 
+	 * @throws Exception
+	 *             if it's impossible to obtain message from the queue
 	 */
 	public void mainLoop() throws Exception {
 		ValveResponse response = ValveResponse.EXECUTED;
@@ -79,7 +84,7 @@ public class Controller {
 	 * with surrounding mine: adjacentMnes flagged cell: 10
 	 */
 	public void updateGameInfo() {
-		Cell[][] currentCells = model.getMineField().getCell();// get the cells info from model
+		Cell[][] currentCells = model.getMineField().getCells();// get the cells info from model
 		int h = model.getHeight();
 		int w = model.getWidth();
 		if (model.getGameStatus()) {
@@ -109,7 +114,7 @@ public class Controller {
 	 * @param gameInfo
 	 */
 	private void showAllMines(GameInfo gameInfo) {
-		Cell[][] currentCells = model.getMineField().getCell();// get the cells info from model
+		Cell[][] currentCells = model.getMineField().getCells();// get the cells info from model
 		int h = model.getHeight();
 		int w = model.getWidth();
 		for (int i = 0; i < h; i++) {

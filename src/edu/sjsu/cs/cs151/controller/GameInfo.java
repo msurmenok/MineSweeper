@@ -24,13 +24,10 @@ public class GameInfo {
 	// 1-8(adjacent # of mines)
 
 	/**
-	 * Default GameInfo with h in height and w in width. By default, -2 represents
-	 * closed cell.
+	 * Generates initial gameInfo with provided model
 	 * 
-	 * @param h
-	 *            height of the mineField (number of rows in the mineField)
-	 * @param w
-	 *            width of the mineField (number of columns in the mineField)
+	 * @param model
+	 *            initial model
 	 */
 	public GameInfo(Model model) {
 		h = model.getHeight();
@@ -117,7 +114,7 @@ public class GameInfo {
 	/**
 	 * Accessor to get the updated numOfMines
 	 * 
-	 * @return
+	 * @return number of mines
 	 */
 	public int getNumOfMines() {
 		return this.numOfMines;
@@ -127,6 +124,7 @@ public class GameInfo {
 	 * Setter to set numOfmines according to the change of the model
 	 * 
 	 * @param mines
+	 *            number of mines
 	 */
 	public void updateNumOfMines(int mines) {
 		this.numOfMines = mines;

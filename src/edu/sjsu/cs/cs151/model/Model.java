@@ -51,7 +51,9 @@ public class Model {
 	}
 
 	/**
-	 * Reset state. Reinitialize field with mines
+	 * Reset state. Reinitialize model and all its variables
+	 * 
+	 * @return new model with specified difficulty level
 	 */
 	public Model restartGame() {
 		return new Model(currDifficulty);

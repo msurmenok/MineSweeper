@@ -138,16 +138,11 @@ public class MineField {
 	}
 
 	/**
-	 * Method to get a specific cell
+	 * Accessor to cells variable
 	 * 
-	 * @param x
-	 *            x coordinate of returning cell
-	 * @param y
-	 *            y coordinate of returning cell
-	 * @return return cell with x y coordinate
+	 * @return all cells of the mineField
 	 */
-	// public Cell getCell(int x, int y)
-	public Cell[][] getCell() {
+	public Cell[][] getCells() {
 		// return cells[y][x];
 		return cells;
 	}

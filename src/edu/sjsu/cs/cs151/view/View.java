@@ -142,8 +142,8 @@ public class View extends JFrame {
 	/**
 	 * Send updated model to render in GameView
 	 * 
-	 * @param model
-	 *            is updated model of the game
+	 * @param gameInfo
+	 *            updated information about Model status
 	 */
 	public void change(GameInfo gameInfo) {
 		/*
@@ -227,7 +227,8 @@ public class View extends JFrame {
 	 * Initialize new View with specified queue
 	 * 
 	 * @param queue
-	 * @return
+	 *            data structure to keep track of user actions
+	 * @return new view with shared queue
 	 */
 	public static View init(BlockingQueue<Message> queue) {
 		return new View(queue);
