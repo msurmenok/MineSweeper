@@ -199,17 +199,24 @@ public class View extends JFrame {
 					} else if (adjacentMines == GameInfo.CLOSED && mineBlowed == false) // closed
 					{
 						jb.setEnabled(true);
-						jb.setText("");
-            // winning case
-            if (gameInfo.isWin()) {
-              statusBar.setText("Bravo! You won!");
-              gameTimer.stop();
-            }
+						jb.setText("");		
 					}
 
 					buttonNumber++;
 				} // EO-for
-				if(mineBlowed) {
+				if (mineBlowed) {
+					disableAll();
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							statusBar.setText("Game over! Please start a new game!");
+							gameTimer.stop();
+						} // EO-run()
+					}); // EO-invokeLater
+				}
+				// winning case	
+				if (gameInfo.isWin()) {
+					statusBar.setText("Bravo! You won!");
+					gameTimer.stop();
 					disableAll();
 				}
 			} // EO-run()
@@ -221,12 +228,7 @@ public class View extends JFrame {
 		for(JButton jb:CellButtonList) {
 			jb.setEnabled(false);
 		}
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				statusBar.setText("Game over! Please start a new game!");
-				gameTimer.stop();
-			} // EO-run()
-		}); // EO-invokeLater
+		
 	}
 
 	/**
