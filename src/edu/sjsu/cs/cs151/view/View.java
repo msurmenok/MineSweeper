@@ -45,6 +45,10 @@ public class View extends JFrame {
 	Timer gameTimer;
 	JLabel statusBar;
 	String statusMsg;
+	
+	final static int FRAME_WIDTH = 200;
+	final static int FRAME_HEIGHT = 500;
+	final static int BUTTON_SIZE = 30;
 
 	/**
 	 * Create instance of View and pass queue that will store messages about user
@@ -102,7 +106,7 @@ public class View extends JFrame {
 		// FIELDPANEL
 		// Panel for a mine field
 		fieldPanel = new JPanel();
-		fieldPanel.setSize(200, 500);
+		fieldPanel.setSize(FRAME_HEIGHT, FRAME_WIDTH);
 		fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		fieldPanel.setLayout(new GridLayout(numberOfRows, numberOfColumns));
 
@@ -119,7 +123,7 @@ public class View extends JFrame {
 			JButton cell = new JButton();
 
 			cell.setName(i + ", ");
-			cell.setPreferredSize(new Dimension(30, 30));
+			cell.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
 			cell.addMouseListener(new MineFieldListener());
 			cell.addActionListener(new MineFieldActionListener());
 			fieldPanel.add(cell);
