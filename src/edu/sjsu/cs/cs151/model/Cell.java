@@ -1,4 +1,10 @@
 package edu.sjsu.cs.cs151.model;
+
+/**
+ * Represents one cell in a field. Keep information about surrounding mines, its
+ * flag, and if it was opened.
+ *
+ */
 public class Cell {
 	private int adjacentMines;
 

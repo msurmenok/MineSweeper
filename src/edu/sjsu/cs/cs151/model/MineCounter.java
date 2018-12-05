@@ -1,35 +1,37 @@
 package edu.sjsu.cs.cs151.model;
+
 /**
- * MineCounter: 
- * number of mines is decreased by 1 upon setFlag() 
- * number of mines is increased by 1 when removeFlag()
+ * Keeps track of remaining mines. This number doesn't reflect the real
+ * situation because it decrease number of mines when user flags a cell.
  */
 public class MineCounter {
 
-  private int numOfMines;
+	private int numOfMines;
 
-  // constructor
-  public MineCounter(int numbOfMines) {
-	  this.numOfMines = numbOfMines;
-  }
+	public MineCounter(int numbOfMines) {
+		this.numOfMines = numbOfMines;
+	}
 
-  /**
-  * number of mines is decreased by 1 upon setFlag() 
-   */
- public void decreaseMine() {
-    numOfMines--;
-  }
-  /**
-   * number of mines is increased by 1 when removeFlag()
-   */
-  public void increaseMine() {
-    numOfMines++;
-  }
+	/**
+	 * Number of mines is decreased by 1 upon setFlag()
+	 */
+	public void decreaseMine() {
+		numOfMines--;
+	}
 
-  /**
-   * return current number of mines  instead of initial number
-   */
-  public int getCurrentNumOfMine() {
-    return this.numOfMines;
-  }
+	/**
+	 * Number of mines is increased by 1 when removeFlag()
+	 */
+	public void increaseMine() {
+		numOfMines++;
+	}
+
+	/**
+	 * Accessor to number of mines.
+	 * 
+	 * @return current number of mines instead of initial number
+	 */
+	public int getCurrentNumOfMine() {
+		return this.numOfMines;
+	}
 }
