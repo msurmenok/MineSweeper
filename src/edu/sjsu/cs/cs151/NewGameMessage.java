@@ -1,5 +1,11 @@
 package edu.sjsu.cs.cs151;
 
-public class NewGameMessage extends Message{
+/**
+ * Created if user clicked NewGame button. Proccessed by NewGameValve
+ * 
+ * @author msurmenok
+ *
+ */
+public class NewGameMessage extends Message {
 
 }

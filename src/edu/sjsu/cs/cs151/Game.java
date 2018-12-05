@@ -24,10 +24,9 @@ public class Game {
 		try {
 			game.mainLoop();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//view.dispose();
+		view.dispose();
 		queue.clear();
 	}
 }
