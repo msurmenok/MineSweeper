@@ -126,9 +126,7 @@ public class View extends JFrame {
 			CellButtonList.add(cell);
 		}
 
-		// this.setSize(200, 600);
-		//this.add(controlPanel, BorderLayout.CENTER);
-		//this.add(fieldPanel, BorderLayout.SOUTH);
+    this.setTitle("Group1: MineSweeper"); // JFrame Title
 		this.add(controlPanel, BorderLayout.NORTH);
 		this.add(fieldPanel, BorderLayout.CENTER);
 		this.add(messagePanel, BorderLayout.SOUTH);
