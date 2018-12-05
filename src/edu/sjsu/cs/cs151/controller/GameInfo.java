@@ -12,6 +12,7 @@ public class GameInfo {
 	private int h;
 	private int w;
 	private int numOfMines;
+	private boolean isWin;
 	// didn't set values for other scenarios such as mine, empty cell etc/
 	// will follow Inhee's code by setting mine be -1, empty cell be 0 and number be
 	// 1-8(adjacent # of mines)
@@ -35,6 +36,7 @@ public class GameInfo {
 				gameStatus[i][j] = CLOSED;
 			}
 		}
+		isWin = false;
 
 	}
 
@@ -107,6 +109,13 @@ public class GameInfo {
 	 */
 	public void updateNumOfMines(int mines) {
 		this.numOfMines= mines;
+	}
+	
+	public void setWin() {
+		isWin = true;
+	}
+	public boolean isWin() {
+		return isWin;
 	}
 
 }
