@@ -2,6 +2,12 @@ package edu.sjsu.cs.cs151.controller;
 
 import edu.sjsu.cs.cs151.model.Model;
 
+/**
+ * Simplified representation of model. Controller passes it to the View to
+ * redraw GUI
+ * 
+ *
+ */
 public class GameInfo {
 	private int[][] gameStatus;
 	public static final int CLOSED = -2;
@@ -22,9 +28,9 @@ public class GameInfo {
 	 * closed cell.
 	 * 
 	 * @param h
-	 *            height of the mineField
+	 *            height of the mineField (number of rows in the mineField)
 	 * @param w
-	 *            width of the mineField
+	 *            width of the mineField (number of columns in the mineField)
 	 */
 	public GameInfo(Model model) {
 		h = model.getHeight();
@@ -75,6 +81,9 @@ public class GameInfo {
 		return gameStatus;
 	}
 
+	/**
+	 * Debugging method. Print gameStatus values
+	 */
 	public void print() { // for debugging use only
 		int h = gameStatus.length;
 		int w = gameStatus[0].length;
@@ -87,33 +96,54 @@ public class GameInfo {
 		}
 	}
 
+	/**
+	 * Accessor to height
+	 * 
+	 * @return the number of rows in mineField
+	 */
 	public int getHeight() {
 		return this.h;
 	}
 
+	/**
+	 * Accessor to width
+	 * 
+	 * @return the number of columns in mineField
+	 */
 	public int getWidth() {
 		return this.w;
 	}
-	
+
 	/**
-	 * Getter to get the updated numOfMines
+	 * Accessor to get the updated numOfMines
+	 * 
 	 * @return
 	 */
 	public int getNumOfMines() {
 		return this.numOfMines;
 	}
-	
+
 	/**
 	 * Setter to set numOfmines according to the change of the model
+	 * 
 	 * @param mines
 	 */
 	public void updateNumOfMines(int mines) {
-		this.numOfMines= mines;
+		this.numOfMines = mines;
 	}
-	
+
+	/**
+	 * Mutator for isWin variable
+	 */
 	public void setWin() {
 		isWin = true;
 	}
+
+	/**
+	 * Accessor for isWin variable
+	 * 
+	 * @return if user has win
+	 */
 	public boolean isWin() {
 		return isWin;
 	}

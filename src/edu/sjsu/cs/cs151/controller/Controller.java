@@ -16,7 +16,8 @@ import edu.sjsu.cs.cs151.model.Model;
 import edu.sjsu.cs.cs151.view.View;
 
 /**
- * Controls the game
+ * Controls the game. Process the events obtained from view and updates state of
+ * the model
  * 
  */
 public class Controller {
@@ -50,7 +51,6 @@ public class Controller {
 		this.model = model;
 		this.gameInfo = new GameInfo(model);
 	}
-	
 
 	/**
 	 * Iterates through messageQueue and updates the model and the view
@@ -100,10 +100,14 @@ public class Controller {
 		} else {
 			showAllMines(gameInfo);
 		}
-		gameInfo.updateNumOfMines(model.getNumOfMinesFromCounter()); //update number of mines in gameInfo
+		gameInfo.updateNumOfMines(model.getNumOfMinesFromCounter()); // update number of mines in gameInfo
 	}
 
-	// helper method to show all mines
+	/**
+	 * Helper method to show all mines
+	 * 
+	 * @param gameInfo
+	 */
 	private void showAllMines(GameInfo gameInfo) {
 		Cell[][] currentCells = model.getMineField().getCell();// get the cells info from model
 		int h = model.getHeight();
@@ -111,24 +115,15 @@ public class Controller {
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
 				if (currentCells[i][j].adjacentMines() == -1) {
-					if(currentCells[i][j].isFlagged()) {
+					if (currentCells[i][j].isFlagged()) {
 						gameInfo.gameInfoUpdate(i, j, gameInfo.wrongFlag());
-					}
-					else {
+					} else {
 						gameInfo.gameInfoUpdate(i, j, currentCells[i][j].adjacentMines());
 					}
 				}
-					
-	
+
 			}
 		}
-	}
-
-	/**
-	 * Method to stop a game. Stops timer.
-	 */
-	void endGame() {
-
 	}
 
 	/**
@@ -155,8 +150,9 @@ public class Controller {
 
 	}
 
-	/*
+	/**
 	 * LeftClickValve handles LeftClickMessage
+	 *
 	 */
 	private class LeftClickValve implements Valve {
 		@Override
@@ -192,6 +188,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * RightClickValve handles RightClickMessage
+	 *
+	 */
 	private class RightClickValve implements Valve {
 		@Override
 		public ValveResponse execute(Message message) {
@@ -206,5 +206,4 @@ public class Controller {
 			return ValveResponse.EXECUTED;
 		}
 	}
-
 }
