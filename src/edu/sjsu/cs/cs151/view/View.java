@@ -153,8 +153,10 @@ public class View extends JFrame {
 		// Update number of remaining mines in JLabel mineCounter.
 		//
 
+    /*
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+    */
 				boolean mineBlowed = false; // marker to enable button. If mine is found, disable all button
 				int buttonNumber = 0;
 
@@ -206,12 +208,8 @@ public class View extends JFrame {
 				} // EO-for
 				if (mineBlowed) {
 					disableAll();
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							statusBar.setText("Game over! Please start a new game!");
-							gameTimer.stop();
-						} // EO-run()
-					}); // EO-invokeLater
+					statusBar.setText("Game over! Please start a new game!");
+					gameTimer.stop();
 				}
 				// winning case	
 				if (gameInfo.isWin()) {
@@ -219,8 +217,10 @@ public class View extends JFrame {
 					gameTimer.stop();
 					disableAll();
 				}
+    /*
 			} // EO-run()
 		}); // EO-invokeLater
+    */
 	} // EO-change
 	
 	//helper method to disable all button 
