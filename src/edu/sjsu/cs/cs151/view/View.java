@@ -283,16 +283,13 @@ public class View extends JFrame {
 		}
 	}
 
-	/**
-	 * Inner class to handle right-click on a cell button
-	 */
-	private class MineFieldListener implements MouseListener {
-		@Override
-		public void mouseClicked(MouseEvent e) {
+	private class MineFieldListener extends MouseAdapter {
+		public void mousePressed(MouseEvent event) {
+
 			// Get id of a clicked button
 			// There are a lot of information, we need to clean it
 			// to get just the first number
-			String buttonInfo = e.getSource().toString();
+			String buttonInfo = event.getSource().toString();
 			buttonInfo = buttonInfo.replaceFirst("javax.swing.JButton\\[", "");
 			buttonInfo = buttonInfo.split(",")[0];
 			int buttonNumber = Integer.parseInt(buttonInfo);
@@ -304,34 +301,68 @@ public class View extends JFrame {
 
 			// Check if it was right or left click. Create appropriate Message
 			// for message queue
-			if (SwingUtilities.isRightMouseButton(e)) {
+			if (SwingUtilities.isRightMouseButton(event)) {
 				try {
 					// Create message for Right-click
 					queue.put(new RightClickMessage(row, column));
-					replaceFlag(e); // toggle a flag for display update
+					replaceFlag(event); // toggle a flag for display update
 				} catch (InterruptedException exception) {
 					exception.printStackTrace();
 				}
 				System.out.println("Right button clicked");
 			}
 		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
 	}
+
+	/**
+	 * Inner class to handle right-click on a cell button
+	 */
+	// private class MineFieldListener implements MouseListener {
+	// @Override
+	// public void mouseClicked(MouseEvent e) {
+	// // Get id of a clicked button
+	// // There are a lot of information, we need to clean it
+	// // to get just the first number
+	// String buttonInfo = e.getSource().toString();
+	// buttonInfo = buttonInfo.replaceFirst("javax.swing.JButton\\[", "");
+	// buttonInfo = buttonInfo.split(",")[0];
+	// int buttonNumber = Integer.parseInt(buttonInfo);
+	//
+	// // Calculate row (height) and column (width) of the button
+	// int row = (int) buttonNumber / numberOfColumns;
+	// int column = buttonNumber - (row * numberOfColumns);
+	// System.out.println("Button with row: " + row + ", column: " + column);
+	//
+	// // Check if it was right or left click. Create appropriate Message
+	// // for message queue
+	// if (SwingUtilities.isRightMouseButton(e)) {
+	// try {
+	// // Create message for Right-click
+	// queue.put(new RightClickMessage(row, column));
+	// replaceFlag(e); // toggle a flag for display update
+	// } catch (InterruptedException exception) {
+	// exception.printStackTrace();
+	// }
+	// System.out.println("Right button clicked");
+	// }
+	// }
+	//
+	// @Override
+	// public void mousePressed(MouseEvent e) {
+	// }
+	//
+	// @Override
+	// public void mouseReleased(MouseEvent e) {
+	// }
+	//
+	// @Override
+	// public void mouseEntered(MouseEvent e) {
+	// }
+	//
+	// @Override
+	// public void mouseExited(MouseEvent e) {
+	// }
+	// }
 
 	/**
 	 * Helper function to test the content of message queue
