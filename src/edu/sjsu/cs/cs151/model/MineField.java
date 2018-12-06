@@ -5,8 +5,8 @@ import java.util.ArrayList;
 /**
  * MineField class is a 2d array that represents a field of mines
  */
-//public class MineField {
-public class MineField implements BoundaryChecker { // proxy pattern 
+public class MineField implements BoundaryChecker {
+	// proxy pattern
 	Cell[][] cells;// visibility to package so Model.java can visit
 	private int height;
 	private int width;
@@ -31,7 +31,6 @@ public class MineField implements BoundaryChecker { // proxy pattern
 		numberOfCells = height * width;
 		mineBoolean = new boolean[numberOfCells];
 		this.numberOfMines = mines;
-		// generateMineField();
 		cells = new Cell[height][width];
 		this.calcAdjacentMines();
 		this.numberOfOpenedCells = 0;
@@ -77,10 +76,10 @@ public class MineField implements BoundaryChecker { // proxy pattern
 	 * @return true if the cell is a mine
 	 */
 	private boolean hasMine(int h, int w) {
-		if (!boundaryProxy(h, w)) 
+		if (!boundaryProxy(h, w))
 			return false;
-		//if (h < 0 || height <= h || w < 0 || width <= w)
-		//	return false;
+		// if (h < 0 || height <= h || w < 0 || width <= w)
+		// return false;
 		int i = h * width + w;
 		if (mineBoolean[i])
 			return true;
@@ -88,6 +87,9 @@ public class MineField implements BoundaryChecker { // proxy pattern
 			return false;
 	}
 
+	/**
+	 * Create mine field and randomly place mines
+	 */
 	public void generateMineField() // Model:Method
 	{
 		// set mines WITHOUT DUPLICATE RANDOM NUMBERS
@@ -117,9 +119,7 @@ public class MineField implements BoundaryChecker { // proxy pattern
 	 * -1 if mine is set at the cell 0, 1, ..., 8 otherwise
 	 *
 	 */
-	public void calcAdjacentMines() // Model:Method
-	{
-		// cells = new Cell[height][width];
+	public void calcAdjacentMines() {
 		generateMineField();
 		for (int h = 0; h < height; h++) {
 			for (int w = 0; w < width; w++) {
@@ -197,11 +197,20 @@ public class MineField implements BoundaryChecker { // proxy pattern
 		}
 	}
 
+	/**
+	 * Recursively open surrounding cells if clicked cell has no mines around it
+	 * 
+	 * @param h
+	 *            the row of the cell in mineField
+	 * @param w
+	 *            the column of the cell in mineField
+	 * @return number of opened cells
+	 */
 	private int openZeroArea(int h, int w) {
-		if (!boundaryProxy(h, w)) 
+		if (!boundaryProxy(h, w))
 			return 0;
-		//if (h < 0 || height <= h || w < 0 || width <= w)
-		//	return 0;
+		// if (h < 0 || height <= h || w < 0 || width <= w)
+		// return 0;
 
 		Cell cell = cells[h][w];
 
@@ -248,6 +257,6 @@ public class MineField implements BoundaryChecker { // proxy pattern
 		if (h < 0 || height <= h || w < 0 || width <= w)
 			return false;
 		return true;
-		}
+	}
 
 }
