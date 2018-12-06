@@ -13,7 +13,7 @@ public class Cell {
 	/**
 	 * Create a cell with specified number of adjacent mines
 	 * 
-	 * @param adjacentMines
+	 * @param adjacentMines number of mines surrounding the cell
 	 */
 	public Cell(int adjacentMines) {
 		this.adjacentMines = adjacentMines;
