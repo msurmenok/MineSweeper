@@ -148,7 +148,7 @@ public class Controller {
 			model = model.restartGame();
 			gameInfo = new GameInfo(model);
 			view.change(gameInfo);
-			gameInfo.print();// for testing purpose
+			//gameInfo.print();// for testing purpose
 			return ValveResponse.EXECUTED;
 
 		}
@@ -170,10 +170,10 @@ public class Controller {
 			updateGameInfo();
 			if (model.getGameStatus()) {
 				if (!model.isWin()) {
-					gameInfo.print();// for testing purpose
+					//gameInfo.print();// for testing purpose
 					view.change(gameInfo);
 				} else {
-					gameInfo.print();
+					//gameInfo.print();
 					model.gameWin();
 					gameInfo.setWin();
 					view.change(gameInfo);
@@ -182,7 +182,7 @@ public class Controller {
 				}
 
 			} else {
-				gameInfo.print();// for testing purpose
+				//gameInfo.print();// for testing purpose
 				model.gameOver();
 				view.change(gameInfo);
 				// TODO: Add losing message on VIEW
@@ -206,7 +206,7 @@ public class Controller {
 			RightClickMessage rightClick = (RightClickMessage) message;
 			model.toggleCellFlag(rightClick.getHeight(), rightClick.getWidth());
 			updateGameInfo();
-			gameInfo.print();// for testing purpose
+			//gameInfo.print();// for testing purpose
 			view.change(gameInfo);
 			return ValveResponse.EXECUTED;
 		}
