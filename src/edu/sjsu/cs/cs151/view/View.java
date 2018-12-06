@@ -249,7 +249,7 @@ public class View extends JFrame {
 					}// EO-run()
 				}); // EO-invokeLater
 				queue.put(new NewGameMessage());
-				printQueue();
+				//printQueue();
 			} catch (InterruptedException exception) {
 				exception.printStackTrace();
 			}
@@ -271,7 +271,7 @@ public class View extends JFrame {
 			// Calculate row (height) and column (width) of the button
 			int row = (int) buttonNumber / numberOfColumns;
 			int column = buttonNumber - (row * numberOfColumns);
-			System.out.println("Button with row: " + row + ", column: " + column);
+			//System.out.println("Button with row: " + row + ", column: " + column);
 
 			try {
 				// Create message for Left-click
@@ -279,7 +279,7 @@ public class View extends JFrame {
 			} catch (InterruptedException exception) {
 				exception.printStackTrace();
 			}
-			System.out.println("Left button clicked");
+			//System.out.println("Left button clicked");
 		}
 	}
 
@@ -297,7 +297,7 @@ public class View extends JFrame {
 			// Calculate row (height) and column (width) of the button
 			int row = (int) buttonNumber / numberOfColumns;
 			int column = buttonNumber - (row * numberOfColumns);
-			System.out.println("Button with row: " + row + ", column: " + column);
+			//System.out.println("Button with row: " + row + ", column: " + column);
 
 			// Check if it was right or left click. Create appropriate Message
 			// for message queue
@@ -309,7 +309,7 @@ public class View extends JFrame {
 				} catch (InterruptedException exception) {
 					exception.printStackTrace();
 				}
-				System.out.println("Right button clicked");
+				//System.out.println("Right button clicked");
 			}
 		}
 	}
