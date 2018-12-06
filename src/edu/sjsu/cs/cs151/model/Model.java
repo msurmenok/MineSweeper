@@ -157,14 +157,17 @@ public class Model {
 	 * Method for debugging, prints on console if the game is over
 	 */
 	public void gameOver() {
-		System.out.println("Game over! Please start a new game!");
+		//System.out.println("Game over! Please start a new game!");
+		System.out.println("");
 	}
 
 	/**
 	 * Method for debugging, prints on console if user has won
 	 */
 	public void gameWin() {
-		System.out.println("Bravo! You won!");
+		//System.out.println("Bravo! You won!");
+		System.out.println("");
+	}
 	}
 
 	/**
